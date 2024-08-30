@@ -13,7 +13,7 @@ namespace Scenes {
         }
 
         void onUpdate(float delta) override {
-            this->ui->addText("crang", "Third Scene", {255, 255, 255, 255}, 32, { HorizontalAlignment::Center, VerticalAlignment::Center });
+            this->ui->addText("Atkinson", "Third Scene", {255, 255, 255, 255}, 32, { HorizontalAlignment::Center, VerticalAlignment::Center });
         }
 
         void onExit() override {
