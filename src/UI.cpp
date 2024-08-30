@@ -62,7 +62,7 @@ void UI::addText(
     }
 
     TTF_Font* font = TTF_OpenFont(this->fonts[fontName].c_str(), fontSize);
-    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Surface* surface = TTF_RenderText_Blended(font, text.c_str(), color);
 
     if (!surface) {
         Logger::warn("Couldn't create surface for text: " + text);

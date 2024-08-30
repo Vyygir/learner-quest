@@ -19,6 +19,8 @@ namespace Scenes {
                 { HorizontalAlignment::Center, VerticalAlignment::Top },
                 { 0, 100 }
             );
+
+            this->ui->addText("Atkinson Bold", "This is some extra long text that should be very readable.", { 255, 255, 255, 255}, 36, { HorizontalAlignment::Center, VerticalAlignment::Center });
         }
 
         void onMouseMove(SDL_MouseMotionEvent event) override {

@@ -65,19 +65,19 @@ std::tuple<bool, SDL_Window*, SDL_Renderer*> setup() {
     return std::make_tuple(init_failed, window, renderer);
 }
 
-void addUIElements(UI& ui, SDL_Color color = { 255, 255, 255, 255 }) {
+void addUIElements(UI& ui, SDL_Color color = { 255, 255, 255, 128 }) {
     Offset offset = { 0, 0 };
 
-    ui.addText("crang", "Tl", color, 12, { HorizontalAlignment::Left, VerticalAlignment::Top });
-    ui.addText("crang", "TC", color, 12, { HorizontalAlignment::Center, VerticalAlignment::Top });
-    ui.addText("crang", "TR", color, 12, { HorizontalAlignment::Right, VerticalAlignment::Top });
+    ui.addText("Atkinson Bold", "TL", color, 18, { HorizontalAlignment::Left, VerticalAlignment::Top });
+    ui.addText("Atkinson Bold", "TC", color, 18, { HorizontalAlignment::Center, VerticalAlignment::Top });
+    ui.addText("Atkinson Bold", "TR", color, 18, { HorizontalAlignment::Right, VerticalAlignment::Top });
 
-    ui.addText("crang", "Cl", color, 12, { HorizontalAlignment::Left, VerticalAlignment::Center });
-    ui.addText("crang", "CR", color, 12, { HorizontalAlignment::Right, VerticalAlignment::Center });
+    ui.addText("Atkinson Bold", "CL", color, 18, { HorizontalAlignment::Left, VerticalAlignment::Center });
+    ui.addText("Atkinson Bold", "CR", color, 18, { HorizontalAlignment::Right, VerticalAlignment::Center });
 
-    ui.addText("crang", "Bl", color, 12, { HorizontalAlignment::Left, VerticalAlignment::Bottom });
-    ui.addText("crang", "BC", color, 12, { HorizontalAlignment::Center, VerticalAlignment::Bottom });
-    ui.addText("crang", "BR", color, 12, { HorizontalAlignment::Right, VerticalAlignment::Bottom });
+    ui.addText("Atkinson Bold", "BL", color, 18, { HorizontalAlignment::Left, VerticalAlignment::Bottom });
+    ui.addText("Atkinson Bold", "BC", color, 18, { HorizontalAlignment::Center, VerticalAlignment::Bottom });
+    ui.addText("Atkinson Bold", "BR", color, 18, { HorizontalAlignment::Right, VerticalAlignment::Bottom });
 }
 
 int main(int argc, char* args[]) {
@@ -96,7 +96,10 @@ int main(int argc, char* args[]) {
 
     game.setRunning(true);
 
-    ui.addFont("crang", "assets/fonts/Crang.ttf");
+    ui.addFont("Atkinson", "assets/fonts/AtkinsonHyperlegible-Regular.ttf");
+    ui.addFont("Atkinson Bold", "assets/fonts/AtkinsonHyperlegible-Bold.ttf");
+    ui.addFont("Atkinson Italic", "assets/fonts/AtkinsonHyperlegible-Italic.ttf");
+    ui.addFont("Atkinson Bold Italic", "assets/fonts/AtkinsonHyperlegible-BoldItalic.ttf");
 
     sceneManager.addScene("Main", std::make_unique<Scenes::Main>());
     sceneManager.addScene("Second", std::make_unique<Scenes::Second>());
