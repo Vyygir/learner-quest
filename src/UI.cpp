@@ -1,6 +1,7 @@
 #include <string>
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "SDL_image.h"
 #include "Utilities/Logger.h"
 #include "UI.h"
 
@@ -10,24 +11,50 @@ UI::UI(SDL_Renderer* renderer) :
     if (TTF_Init() != 0) {
         Logger::error("Wasn't able to initialise TTF_Font: " + std::string(TTF_GetError()));
     }
+
+    if (IMG_Init(IMG_INIT_PNG) != 0) {
+        Logger::error("Wasn't able to initialise SDL2_image: " + std::string(IMG_GetError()));
+    }
 }
 
-// This should be the destructor:
 UI::~UI() {
     TTF_Quit();
+    IMG_Quit();
 }
 
-void UI::addFont(const std::string& name, const std::string& fontPath, int fontSize) {
+void UI::addFont(const std::string& name, const std::string& fontPath) {
     this->fonts[name] = fontPath;
+}
+
+void UI::addImage(const std::string& path, Dimensions dimensions, Alignment alignment, Offset offset) {
+    SDL_Surface* surface = IMG_Load(path.c_str());
+
+    if (!surface) {
+        Logger::warn("Couldn't load image at \"" + path + "\":\n\t" + IMG_GetError());
+        return;
+    }
+
+    createElement(surface, dimensions, { 1.0f, 1.0f }, offset, alignment);
+}
+
+void UI::addImage(const std::string& path, Scale scale, Alignment alignment, Offset offset) {
+    SDL_Surface* surface = IMG_Load(path.c_str());
+
+    if (!surface) {
+        Logger::warn("Couldn't load image at \"" + path + "\":\n\t" + IMG_GetError());
+        return;
+    }
+
+    createElement(surface, { -1, -1 }, scale, offset, alignment);
 }
 
 void UI::addText(
     const std::string& fontName,
     const std::string& text,
     SDL_Color color,
-    int fontSize = 18,
-    Offset offset = { 0, 0 },
-    Alignment alignment = { HorizontalAlignment::Left, VerticalAlignment::Top }
+    int fontSize,
+    Alignment alignment,
+    Offset offset
 ) {
     if (this->fonts.find(fontName) == this->fonts.end()) {
         Logger::warn("\"" + std::string(fontName) + "\" isn't a valid font");
@@ -43,10 +70,10 @@ void UI::addText(
         return;
     }
 
-    createElement(surface, offset, alignment);
+    createElement(surface, { -1, -1 }, { 1.0f, 1.0f }, offset, alignment);
 }
 
-void UI::createElement(SDL_Surface* surface, Offset offset, Alignment alignment) {
+void UI::createElement(SDL_Surface* surface, Dimensions dimensions, Scale scale, Offset offset, Alignment alignment) {
     int windowWidth, windowHeight;
     this->getWindowSize(windowWidth, windowHeight);
 
@@ -61,10 +88,26 @@ void UI::createElement(SDL_Surface* surface, Offset offset, Alignment alignment)
         return;
     }
 
+    if (dimensions.w == -1) {
+        dimensions.w = surface->w;
+    }
+
+    if (dimensions.h == -1) {
+        dimensions.h = surface->h;
+    }
+
     SDL_Rect rect;
 
-    rect.w = surface->w;
-    rect.h = surface->h;
+    rect.w = dimensions.w;
+    rect.h = dimensions.h;
+
+    if (scale.x != 1.0f) {
+        rect.w *= scale.x;
+    }
+
+    if (scale.y != 1.0f) {
+        rect.h *= scale.y;
+    }
 
     switch (alignment.x) {
         case HorizontalAlignment::Left:

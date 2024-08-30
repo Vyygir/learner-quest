@@ -13,7 +13,12 @@ namespace Scenes {
         }
 
         void onUpdate(float delta) override {
-            this->ui->addText("crang", "Main Scene", {255, 255, 255, 255}, 32, { 0, 0 }, { HorizontalAlignment::Center, VerticalAlignment::Center });
+            this->ui->addImage(
+                "assets/media/logo.png",
+                Scale{ 0.75f, 0.75f },
+                { HorizontalAlignment::Center, VerticalAlignment::Top },
+                { 0, 100 }
+            );
         }
 
         void onMouseMove(SDL_MouseMotionEvent event) override {

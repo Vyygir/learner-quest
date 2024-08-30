@@ -68,16 +68,16 @@ std::tuple<bool, SDL_Window*, SDL_Renderer*> setup() {
 void addUIElements(UI& ui, SDL_Color color = { 255, 255, 255, 255 }) {
     Offset offset = { 0, 0 };
 
-    ui.addText("crang", "Tl", color, 12, offset, { HorizontalAlignment::Left, VerticalAlignment::Top });
-    ui.addText("crang", "TC", color, 12, offset, { HorizontalAlignment::Center, VerticalAlignment::Top });
-    ui.addText("crang", "TR", color, 12, offset, { HorizontalAlignment::Right, VerticalAlignment::Top });
+    ui.addText("crang", "Tl", color, 12, { HorizontalAlignment::Left, VerticalAlignment::Top });
+    ui.addText("crang", "TC", color, 12, { HorizontalAlignment::Center, VerticalAlignment::Top });
+    ui.addText("crang", "TR", color, 12, { HorizontalAlignment::Right, VerticalAlignment::Top });
 
-    ui.addText("crang", "Cl", color, 12, offset, { HorizontalAlignment::Left, VerticalAlignment::Center });
-    ui.addText("crang", "CR", color, 12, offset, { HorizontalAlignment::Right, VerticalAlignment::Center });
+    ui.addText("crang", "Cl", color, 12, { HorizontalAlignment::Left, VerticalAlignment::Center });
+    ui.addText("crang", "CR", color, 12, { HorizontalAlignment::Right, VerticalAlignment::Center });
 
-    ui.addText("crang", "Bl", color, 12, offset, { HorizontalAlignment::Left, VerticalAlignment::Bottom });
-    ui.addText("crang", "BC", color, 12, offset, { HorizontalAlignment::Center, VerticalAlignment::Bottom });
-    ui.addText("crang", "BR", color, 12, offset, { HorizontalAlignment::Right, VerticalAlignment::Bottom });
+    ui.addText("crang", "Bl", color, 12, { HorizontalAlignment::Left, VerticalAlignment::Bottom });
+    ui.addText("crang", "BC", color, 12, { HorizontalAlignment::Center, VerticalAlignment::Bottom });
+    ui.addText("crang", "BR", color, 12, { HorizontalAlignment::Right, VerticalAlignment::Bottom });
 }
 
 int main(int argc, char* args[]) {
@@ -96,7 +96,7 @@ int main(int argc, char* args[]) {
 
     game.setRunning(true);
 
-    ui.addFont("crang", "assets/fonts/Crang.ttf", 24);
+    ui.addFont("crang", "assets/fonts/Crang.ttf");
 
     sceneManager.addScene("Main", std::make_unique<Scenes::Main>());
     sceneManager.addScene("Second", std::make_unique<Scenes::Second>());
