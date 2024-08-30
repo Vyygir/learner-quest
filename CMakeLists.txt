@@ -6,10 +6,12 @@ set(CMAKE_CXX_STANDARD 17)
 # Include SDL2 and SDL2_ttf headers
 include_directories(${CMAKE_SOURCE_DIR}/includes/SDL2/include)
 include_directories(${CMAKE_SOURCE_DIR}/includes/SDL2_ttf/include)
+include_directories(${CMAKE_SOURCE_DIR}/includes/SDL2_image/include)
 
 # Link SDL2 and SDL2_ttf libraries
 link_directories(${CMAKE_SOURCE_DIR}/includes/SDL2/lib)
 link_directories(${CMAKE_SOURCE_DIR}/includes/SDL2_ttf/lib)
+link_directories(${CMAKE_SOURCE_DIR}/includes/SDL2_image/lib)
 
 # Add the executable
 add_executable(learner_quest
@@ -31,4 +33,9 @@ add_executable(learner_quest
 )
 
 # Link the libraries to the executable
-target_link_libraries(learner_quest SDL2 SDL2_ttf)
+target_link_libraries(learner_quest SDL2 SDL2_ttf SDL2_image)
+
+add_custom_command(TARGET learner_quest POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:learner_quest>/assets
+)
