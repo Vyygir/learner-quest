@@ -22,6 +22,14 @@ UI::~UI() {
     IMG_Quit();
 }
 
+void UI::setBackgroundColor(SDL_Color color) {
+    this->backgroundColor = color;
+}
+
+SDL_Color UI::getBackgroundColor() {
+    return this->backgroundColor;
+}
+
 void UI::addFont(const std::string& name, const std::string& fontPath) {
     this->fonts[name] = fontPath;
 }

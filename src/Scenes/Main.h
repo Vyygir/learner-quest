@@ -10,6 +10,8 @@ namespace Scenes {
     public:
         void onLoad() override {
             Logger::log("Main scene has been loaded");
+
+            this->ui->setBackgroundColor({ 79, 177, 229 });
         }
 
         void onUpdate(float delta) override {

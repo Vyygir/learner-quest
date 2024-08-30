@@ -43,6 +43,9 @@ public:
     explicit UI(SDL_Renderer* renderer);
     ~UI();
 
+    void setBackgroundColor(SDL_Color color);
+    SDL_Color getBackgroundColor();
+
     void addFont(const std::string& name, const std::string& fontPath);
     void addImage(
         const std::string& path,
@@ -78,6 +81,7 @@ private:
     SDL_Renderer *renderer;
     std::map<std::string, std::string> fonts;
     std::queue<UIElement> queue;
+    SDL_Color backgroundColor = { 0, 0, 0, 255 };
 
     void createElement(SDL_Surface* surface, Dimensions dimensions, Scale scale, Offset offset, Alignment alignment);
     void getWindowSize(int& width, int& height) const;

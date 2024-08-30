@@ -12,6 +12,7 @@ public:
 
     void setContext(Game* game, SceneManager* sceneManager, UI* ui) {
         this->game = game;
+        this->sceneManager = sceneManager;
         this->ui = ui;
     }
 

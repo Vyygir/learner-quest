@@ -10,6 +10,8 @@ namespace Scenes {
     public:
         void onLoad() override {
             Logger::log("Third scene has been loaded");
+
+            this->ui->setBackgroundColor({ 0, 0, 128 });
         }
 
         void onUpdate(float delta) override {

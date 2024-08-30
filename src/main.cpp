@@ -69,23 +69,7 @@ std::tuple<bool, SDL_Window*, SDL_Renderer*> setup() {
     return std::make_tuple(init_failed, window, renderer);
 }
 
-void addUIElements(UI& ui, SDL_Color color = { 255, 255, 255, 128 }) {
-    Offset offset = { 0, 0 };
-
-    ui.addText("Atkinson Bold", "TL", color, 18, { HorizontalAlignment::Left, VerticalAlignment::Top });
-    ui.addText("Atkinson Bold", "TC", color, 18, { HorizontalAlignment::Center, VerticalAlignment::Top });
-    ui.addText("Atkinson Bold", "TR", color, 18, { HorizontalAlignment::Right, VerticalAlignment::Top });
-
-    ui.addText("Atkinson Bold", "CL", color, 18, { HorizontalAlignment::Left, VerticalAlignment::Center });
-    ui.addText("Atkinson Bold", "CR", color, 18, { HorizontalAlignment::Right, VerticalAlignment::Center });
-
-    ui.addText("Atkinson Bold", "BL", color, 18, { HorizontalAlignment::Left, VerticalAlignment::Bottom });
-    ui.addText("Atkinson Bold", "BC", color, 18, { HorizontalAlignment::Center, VerticalAlignment::Bottom });
-    ui.addText("Atkinson Bold", "BR", color, 18, { HorizontalAlignment::Right, VerticalAlignment::Bottom });
-}
-
 int run() {
-    auto [width, height] = RESOLUTION;
     auto [init_failed, window, renderer] = setup();
 
     if (init_failed) {
@@ -126,12 +110,10 @@ int run() {
         game.setPreviousTime(currentTime);
         lag += elapsed;
 
-        std::random_device dev;
-        std::mt19937 rng(dev());
-        std::uniform_int_distribution<std::mt19937::result_type> rgb_value(0,255);
+        SDL_Color background = ui.getBackgroundColor();
 
         SDL_RenderClear(renderer);
-        SDL_SetRenderDrawColor(renderer, rgb[0], rgb[1], rgb[2], 255);
+        SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 
         while (lag >= FIXED_INTERVAL) {
             events.handle();
@@ -139,17 +121,7 @@ int run() {
 
             lag -= FIXED_INTERVAL;
             ticks++;
-
-            if (ticks > 20) {
-                ticks = 0;
-
-                rgb[0] = rgb_value(dev);
-                rgb[1] = rgb_value(dev);
-                rgb[2] = rgb_value(dev);
-            }
         }
-
-        addUIElements(ui);
 
         sceneManager.updateCurrentScene((float) currentTime);
         ui.draw();
