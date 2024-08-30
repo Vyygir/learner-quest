@@ -6,6 +6,11 @@
 #include <queue>
 #include "SDL_ttf.h"
 
+struct Offset {
+    int x;
+    int y;
+};
+
 enum class HorizontalAlignment {
     Left,
     Center,
@@ -18,8 +23,12 @@ enum class VerticalAlignment {
     Bottom,
 };
 
-class UI {
+struct Alignment {
+    HorizontalAlignment x;
+    VerticalAlignment y;
+};
 
+class UI {
 public:
     explicit UI(SDL_Renderer* renderer);
     ~UI();
@@ -30,24 +39,24 @@ public:
         const std::string& text,
         SDL_Color color,
         int fontSize,
-        int x,
-        int y,
-        HorizontalAlignment horizontalAlignment,
-        VerticalAlignment verticalAlignment
+        Offset offset,
+        Alignment alignment
     );
 
     void draw();
-    void getWindowSize(int& width, int& height) const;
 
 private:
-    struct TextElement {
+    struct UIElement {
         SDL_Texture* texture;
         SDL_Rect rect;
     };
 
     SDL_Renderer *renderer;
     std::map<std::string, std::string> fonts;
-    std::queue<TextElement> queue;
+    std::queue<UIElement> queue;
+
+    void createElement(SDL_Surface* surface, Offset offset, Alignment alignment);
+    void getWindowSize(int& width, int& height) const;
 };
 
 #endif

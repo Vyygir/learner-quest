@@ -26,14 +26,9 @@ void UI::addText(
     const std::string& text,
     SDL_Color color,
     int fontSize = 18,
-    int x = 0,
-    int y = 0,
-    HorizontalAlignment horizontalAlign = HorizontalAlignment::Left,
-    VerticalAlignment verticalAlign = VerticalAlignment::Top
+    Offset offset = { 0, 0 },
+    Alignment alignment = { HorizontalAlignment::Left, VerticalAlignment::Top }
 ) {
-    int windowWidth, windowHeight;
-    this->getWindowSize(windowWidth, windowHeight);
-
     if (this->fonts.find(fontName) == this->fonts.end()) {
         Logger::warn("\"" + std::string(fontName) + "\" isn't a valid font");
         return;
@@ -48,7 +43,14 @@ void UI::addText(
         return;
     }
 
-    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
+    createElement(surface, offset, alignment);
+}
+
+void UI::createElement(SDL_Surface* surface, Offset offset, Alignment alignment) {
+    int windowWidth, windowHeight;
+    this->getWindowSize(windowWidth, windowHeight);
+
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(this->renderer, surface);
 
     if (!texture) {
         Logger::warn("Couldn't create texture from surface:");
@@ -64,7 +66,7 @@ void UI::addText(
     rect.w = surface->w;
     rect.h = surface->h;
 
-    switch (horizontalAlign) {
+    switch (alignment.x) {
         case HorizontalAlignment::Left:
             rect.x = 0;
             break;
@@ -78,7 +80,7 @@ void UI::addText(
             break;
     }
 
-    switch (verticalAlign) {
+    switch (alignment.y) {
         case VerticalAlignment::Top:
             rect.y = 0;
             break;
@@ -92,19 +94,17 @@ void UI::addText(
             break;
     }
 
-    rect.x += x;
-    rect.y += y;
+    rect.x += offset.x;
+    rect.y += offset.y;
 
     SDL_FreeSurface(surface);
 
     queue.push({ texture, rect });
-
-//    TTF_CloseFont(font);
 }
 
 void UI::draw() {
     while (!this->queue.empty()) {
-        TextElement element = queue.front();
+        UIElement element = queue.front();
         queue.pop();
 
         SDL_RenderCopy(this->renderer, element.texture, nullptr, &element.rect);
