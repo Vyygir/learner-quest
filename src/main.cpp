@@ -19,7 +19,7 @@
 
 const char* TITLE = "2D Adventure Game";
 
-const std::tuple<int, int> RESOLUTION = std::make_tuple(800, 600);
+const std::tuple<int, int> RESOLUTION = std::make_tuple(1280, 720);
 
 const int FRAME_RATE     = 144;
 const int ENGINE_SPEED   = 60;
