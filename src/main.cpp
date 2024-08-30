@@ -2,6 +2,10 @@
 #include <string>
 #include <random>
 
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 #define SDL_MAIN_HANDLED
 #include "SDL.h"
 #include "SDL_ttf.h"
@@ -80,7 +84,7 @@ void addUIElements(UI& ui, SDL_Color color = { 255, 255, 255, 128 }) {
     ui.addText("Atkinson Bold", "BR", color, 18, { HorizontalAlignment::Right, VerticalAlignment::Bottom });
 }
 
-int main(int argc, char* args[]) {
+int run() {
     auto [width, height] = RESOLUTION;
     auto [init_failed, window, renderer] = setup();
 
@@ -164,5 +168,10 @@ int main(int argc, char* args[]) {
     TTF_Quit();
     SDL_Quit();
 
+    return 0;
+}
+
+int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+    run();
     return 0;
 }
