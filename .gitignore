@@ -1,0 +1,54 @@
+# Ignore build directories
+/cmake-build-*
+/build/
+/out/
+
+# Ignore CMake generated files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Testing/
+*.cmake
+
+# Ignore CLion-specific files
+.idea/
+*.iml
+
+# Ignore user-specific files
+*.swp
+*~
+*.user
+*.userprefs
+
+# Ignore logs, temporary files, and hidden system files
+*.log
+*.tmp
+*.bak
+*.old
+*.orig
+*.rej
+*.swo
+*.swn
+*.DS_Store
+Thumbs.db
+desktop.ini
+
+# Ignore compiled object files and libraries
+*.o
+*.a
+*.so
+*.dylib
+*.lib
+*.dll
+*.exe
+*.out
+*.app
+
+# Ignore dependency manager files
+*.d
+*.dep
+
+# Ignore debug and release folders
+/Debug/
+/Release/
+/*.patch
