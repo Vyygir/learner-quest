@@ -16,9 +16,23 @@ namespace Scenes {
 
         void onUpdate(float delta) override {
             this->ui->addImage(
+                "assets/media/menu/background.png",
+                Scale{ 2.0f, 0.55f },
+                true,
+                Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
+                true,
+                false,
+                this->backgroundOffset
+            );
+
+            this->backgroundOffset = { this->backgroundOffset.x - 1, 0 };
+
+            this->ui->addImage(
                 "assets/media/logo.png",
                 Scale{ 0.75f, 0.75f },
-                { HorizontalAlignment::Center, VerticalAlignment::Top },
+                Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top },
+                false,
+                false,
                 { 0, 100 }
             );
 
@@ -44,6 +58,9 @@ namespace Scenes {
         void onExit() override {
             Logger::log("Main scene has been exited");
         }
+
+    private:
+        Offset backgroundOffset = { 0, 0 };
     };
 }
 

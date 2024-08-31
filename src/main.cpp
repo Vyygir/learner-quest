@@ -69,7 +69,7 @@ std::tuple<bool, SDL_Window*, SDL_Renderer*> setup() {
     return std::make_tuple(init_failed, window, renderer);
 }
 
-int run() {
+int main() {
     auto [init_failed, window, renderer] = setup();
 
     if (init_failed) {
@@ -143,7 +143,7 @@ int run() {
     return 0;
 }
 
-int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-    run();
-    return 0;
-}
+//int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+//    run();
+//    return 0;
+//}

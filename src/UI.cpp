@@ -34,7 +34,14 @@ void UI::addFont(const std::string& name, const std::string& fontPath) {
     this->fonts[name] = fontPath;
 }
 
-void UI::addImage(const std::string& path, Dimensions dimensions, Alignment alignment, Offset offset) {
+void UI::addImage(
+    const std::string& path,
+    Dimensions dimensions,
+    Alignment alignment,
+    bool repeatX,
+    bool repeatY,
+    Offset offset
+) {
     SDL_Surface* surface = IMG_Load(path.c_str());
 
     if (!surface) {
@@ -45,7 +52,14 @@ void UI::addImage(const std::string& path, Dimensions dimensions, Alignment alig
     createElement(surface, dimensions, { 1.0f, 1.0f }, offset, alignment);
 }
 
-void UI::addImage(const std::string& path, Scale scale, Alignment alignment, Offset offset) {
+void UI::addImage(
+    const std::string& path,
+    Scale scale,
+    Alignment alignment,
+    bool repeatX,
+    bool repeatY,
+    Offset offset
+) {
     SDL_Surface* surface = IMG_Load(path.c_str());
 
     if (!surface) {
@@ -53,7 +67,26 @@ void UI::addImage(const std::string& path, Scale scale, Alignment alignment, Off
         return;
     }
 
-    createElement(surface, { -1, -1 }, scale, offset, alignment);
+    createElement(surface, { -1, -1 }, scale, offset, alignment, repeatX, repeatY);
+}
+
+void UI::addImage(
+    const std::string& path,
+    Scale scale,
+    bool scaleToWindow,
+    Alignment alignment,
+    bool repeatX,
+    bool repeatY,
+    Offset offset
+) {
+    SDL_Surface* surface = IMG_Load(path.c_str());
+
+    if (!surface) {
+        Logger::warn("Couldn't load image at \"" + path + "\":\n\t" + IMG_GetError());
+        return;
+    }
+
+    createElement(surface, { -1, -1 }, scale, offset, alignment, repeatX, repeatY, scaleToWindow);
 }
 
 void UI::addText(
@@ -81,7 +114,16 @@ void UI::addText(
     createElement(surface, { -1, -1 }, { 1.0f, 1.0f }, offset, alignment);
 }
 
-void UI::createElement(SDL_Surface* surface, Dimensions dimensions, Scale scale, Offset offset, Alignment alignment) {
+void UI::createElement(
+    SDL_Surface* surface,
+    Dimensions dimensions,
+    Scale scale,
+    Offset offset,
+    Alignment alignment,
+    bool repeatX,
+    bool repeatY,
+    bool scaleToWindow
+) {
     int windowWidth, windowHeight;
     this->getWindowSize(windowWidth, windowHeight);
 
@@ -109,12 +151,17 @@ void UI::createElement(SDL_Surface* surface, Dimensions dimensions, Scale scale,
     rect.w = dimensions.w;
     rect.h = dimensions.h;
 
-    if (scale.x != 1.0f) {
-        rect.w *= scale.x;
-    }
+    if (scaleToWindow) {
+        rect.w = windowWidth * scale.x;
+        rect.h = windowHeight * scale.y;
+    } else {
+        if (scale.x != 1.0f) {
+            rect.w *= scale.x;
+        }
 
-    if (scale.y != 1.0f) {
-        rect.h *= scale.y;
+        if (scale.y != 1.0f) {
+            rect.h *= scale.y;
+        }
     }
 
     switch (alignment.x) {
@@ -150,7 +197,7 @@ void UI::createElement(SDL_Surface* surface, Dimensions dimensions, Scale scale,
 
     SDL_FreeSurface(surface);
 
-    queue.push({ texture, rect });
+    queue.push({ texture, rect, offset, repeatX, repeatY });
 }
 
 void UI::draw() {
@@ -158,7 +205,25 @@ void UI::draw() {
         UIElement element = queue.front();
         queue.pop();
 
-        SDL_RenderCopy(this->renderer, element.texture, nullptr, &element.rect);
+        if (element.repeatX || element.repeatY) {
+            int windowWidth, windowHeight;
+            this->getWindowSize(windowWidth, windowHeight);
+
+            int startX = element.rect.x;
+            int startY = element.rect.y;
+            int endX = element.repeatX ? windowWidth : startX + element.rect.w;
+            int endY = element.repeatY ? windowHeight : startY + element.rect.h;
+
+            for (int y = startY; y < endY; y += element.rect.h) {
+                for (int x = startX; x < endX; x += element.rect.w) {
+                    SDL_Rect dstRect = {x, y, element.rect.w, element.rect.h};
+                    SDL_RenderCopy(this->renderer, element.texture, nullptr, &dstRect);
+                }
+            }
+        } else {
+            SDL_RenderCopy(this->renderer, element.texture, nullptr, &element.rect);
+        }
+
         SDL_DestroyTexture(element.texture);
     }
 }

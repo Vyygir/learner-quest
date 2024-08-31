@@ -51,14 +51,28 @@ public:
         const std::string& path,
         Dimensions dimensions = { -1, -1 },
         Alignment alignment = { HorizontalAlignment::Left, VerticalAlignment::Top },
+        bool repeatX = false,
+        bool repeatY = false,
         Offset offset = { 0, 0 }
     );
 
     void addImage(
-            const std::string& path,
-            Scale scale = { 1.0f, 1.0f },
-            Alignment alignment = { HorizontalAlignment::Left, VerticalAlignment::Top },
-            Offset offset = { 0, 0 }
+        const std::string& path,
+        Scale scale = { 1.0f, 1.0f },
+        Alignment alignment = { HorizontalAlignment::Left, VerticalAlignment::Top },
+        bool repeatX = false,
+        bool repeatY = false,
+        Offset offset = { 0, 0 }
+    );
+
+    void addImage(
+        const std::string& path,
+        Scale scale = { 1.0f, 1.0f },
+        bool scaleToWindow = false,
+        Alignment alignment = { HorizontalAlignment::Left, VerticalAlignment::Top },
+        bool repeatX = false,
+        bool repeatY = false,
+        Offset offset = { 0, 0 }
     );
 
     void addText(
@@ -76,6 +90,9 @@ private:
     struct UIElement {
         SDL_Texture* texture;
         SDL_Rect rect;
+        Offset offset;
+        bool repeatX;
+        bool repeatY;
     };
 
     SDL_Renderer *renderer;
@@ -83,7 +100,17 @@ private:
     std::queue<UIElement> queue;
     SDL_Color backgroundColor = { 0, 0, 0, 255 };
 
-    void createElement(SDL_Surface* surface, Dimensions dimensions, Scale scale, Offset offset, Alignment alignment);
+    void createElement(
+        SDL_Surface* surface,
+        Dimensions dimensions,
+        Scale scale,
+        Offset offset,
+        Alignment alignment,
+        bool repeatX = false,
+        bool repeatY = false,
+        bool scaleToWindow = false
+    );
+
     void getWindowSize(int& width, int& height) const;
 };
 

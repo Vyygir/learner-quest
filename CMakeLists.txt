@@ -35,27 +35,27 @@ add_executable(learner_quest
 # Link the libraries to the executable
 target_link_libraries(learner_quest SDL2 SDL2_ttf SDL2_image)
 
-if (WIN32)
-    set(SDL2_DLL ${CMAKE_SOURCE_DIR}/includes/SDL2/lib/SDL2.dll)
-    set(SDL2_TTF_DLL ${CMAKE_SOURCE_DIR}/includes/SDL2_ttf/lib/SDL2_ttf.dll)
-    set(SDL2_IMAGE_DLL ${CMAKE_SOURCE_DIR}/includes/SDL2_image/lib/SDL2_image.dll)
-
-    add_custom_command(TARGET learner_quest POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${SDL2_DLL} $<TARGET_FILE_DIR:learner_quest>
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${SDL2_TTF_DLL} $<TARGET_FILE_DIR:learner_quest>
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${SDL2_IMAGE_DLL} $<TARGET_FILE_DIR:learner_quest>
-        COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:learner_quest>/assets
-    )
-
-    set_target_properties(learner_quest PROPERTIES
-        WIN32_EXECUTABLE TRUE
-        LINK_FLAGS "/SUBSYSTEM:WINDOWS"
-    )
-endif()
+#if (WIN32)
+#    set(SDL2_DLL ${CMAKE_SOURCE_DIR}/includes/SDL2/lib/SDL2.dll)
+#    set(SDL2_TTF_DLL ${CMAKE_SOURCE_DIR}/includes/SDL2_ttf/lib/SDL2_ttf.dll)
+#    set(SDL2_IMAGE_DLL ${CMAKE_SOURCE_DIR}/includes/SDL2_image/lib/SDL2_image.dll)
+#
+#    add_custom_command(TARGET learner_quest POST_BUILD
+#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#        ${SDL2_DLL} $<TARGET_FILE_DIR:learner_quest>
+#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#        ${SDL2_TTF_DLL} $<TARGET_FILE_DIR:learner_quest>
+#        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+#        ${SDL2_IMAGE_DLL} $<TARGET_FILE_DIR:learner_quest>
+#        COMMAND ${CMAKE_COMMAND} -E copy_directory
+#        ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:learner_quest>/assets
+#    )
+#
+#    set_target_properties(learner_quest PROPERTIES
+#        WIN32_EXECUTABLE TRUE
+#        LINK_FLAGS "/SUBSYSTEM:WINDOWS"
+#    )
+#endif()
 
 add_custom_command(TARGET learner_quest POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
