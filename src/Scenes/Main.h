@@ -17,7 +17,7 @@ namespace Scenes {
         void onUpdate(float delta) override {
             this->ui->addImage(
                 "assets/media/menu/background.png",
-                Scale{ 2.0f, 0.55f },
+                Scale{ 0.0f, 0.55f },
                 true,
                 Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
                 true,
@@ -60,7 +60,7 @@ namespace Scenes {
         }
 
     private:
-        Offset backgroundOffset = { 0, 0 };
+        Offset backgroundOffset = { -100, 0 };
     };
 }
 
