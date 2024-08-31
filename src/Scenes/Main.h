@@ -6,62 +6,68 @@
 #include "../Utilities/Logger.h"
 
 namespace Scenes {
-    class Main : public Scene {
-    public:
-        void onLoad() override {
-            Logger::log("Main scene has been loaded");
+	class Main : public Scene {
+	public:
+		void onLoad() override {
+			Logger::log("Main scene has been loaded");
 
-            this->ui->setBackgroundColor({ 79, 177, 229 });
-        }
+			this->ui->setBackgroundColor({ 79, 177, 229 });
+		}
 
-        void onUpdate(float delta) override {
-            this->ui->addImage(
-                "assets/media/menu/background.png",
-                Scale{ 0.0f, 0.55f },
-                true,
-                Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
-                true,
-                false,
-                this->backgroundOffset
-            );
+		void onUpdate(float delta) override {
+			this->ui->addImage(
+				"assets/media/menu/background.png",
+				Scale{ 0.0f, 0.55f },
+				true,
+				Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
+				true,
+				false,
+				this->backgroundOffset
+			);
 
-            this->backgroundOffset = { this->backgroundOffset.x - 1, 0 };
+			this->backgroundOffset = { this->backgroundOffset.x - 1, 0 };
 
-            this->ui->addImage(
-                "assets/media/logo.png",
-                Scale{ 0.75f, 0.75f },
-                Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top },
-                false,
-                false,
-                { 0, 100 }
-            );
+			this->ui->addImage(
+				"assets/media/logo.png",
+				Scale{ 0.75f, 0.75f },
+				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top },
+				false,
+				false,
+				{ 0, 100 }
+			);
 
-            this->ui->addText("Atkinson", "This is some extra long text that should be very readable.", { 255, 255, 255, 255}, 36, { HorizontalAlignment::Center, VerticalAlignment::Center });
-        }
+			this->ui->addText(
+				"Atkinson",
+				"This is some extra long text that should be very readable.",
+				{ 255, 255, 255, 255 },
+				36,
+				{ HorizontalAlignment::Center, VerticalAlignment::Center }
+			);
+		}
 
-        void onMouseMove(SDL_MouseMotionEvent event) override {
+		void onMouseMove(SDL_MouseMotionEvent event) override {
 //            Logger::log("User is moving the mouse");
-        }
+		}
 
-        void onMouseButton(SDL_MouseButtonEvent event) override {
-            Logger::log("User has submitted mouse button input");
+		void onMouseButton(SDL_MouseButtonEvent event) override {
+			Logger::log("User has submitted mouse button input");
 
-            if (event.button == SDL_BUTTON_LEFT) {
-                Logger::log("User has left clicked");
-            }
+			if (event.button == SDL_BUTTON_LEFT) {
+				Logger::log("User has left clicked");
+			}
 
-            if (event.button == SDL_BUTTON_RIGHT) {
-                Logger::log("User has right clicked");
-            }
-        }
+			if (event.button == SDL_BUTTON_RIGHT) {
+				Logger::log("User has right clicked");
+			}
+		}
 
-        void onExit() override {
-            Logger::log("Main scene has been exited");
-        }
+		void onExit() override {
+			Logger::log("Main scene has been exited");
+		}
 
-    private:
-        Offset backgroundOffset = { -100, 0 };
-    };
+	private:
+		Offset backgroundOffset = { -100, 0 };
+	};
 }
 
 #endif

@@ -6,16 +6,17 @@
 
 class Events {
 public:
-    Events(Game* game, SceneManager* sceneManager);
-    void handle();
+	Events(Game *game, SceneManager *sceneManager);
+
+	void handle();
 
 private:
-    Game* game;
-    SceneManager* sceneManager;
-    SDL_Event event{};
+	Game *game;
+	SceneManager *sceneManager;
+	SDL_Event event{};
 
-    void keyPress(SDL_Keycode code);
-    void handleWindowEvent(SDL_Event e);
+	void keyPress(SDL_Keycode code);
+	void handleWindowEvent(SDL_Event e);
 };
 
 #endif

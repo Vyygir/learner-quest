@@ -1,75 +1,70 @@
 #include "Game.h"
 
-Game::Game(SDL_Window* window, SDL_Renderer* renderer) :
-    running(false),
-    fullscreen(false),
-    window(window),
-    renderer(renderer),
-    previousTime(0),
-    currentTime(0),
-    lag(0)
-{}
+Game::Game(SDL_Window *window, SDL_Renderer *renderer) :
+	running(false),
+	fullscreen(false),
+	window(window),
+	renderer(renderer),
+	previousTime(0),
+	currentTime(0),
+	lag(0) {}
 
 void Game::update() {
-    // Update game logic
+	// Update game logic
 }
 
-SDL_Renderer* Game::getRenderer() {
-    return renderer;
+SDL_Renderer *Game::getRenderer() {
+	return renderer;
 }
 
 void Game::setPreviousTime(Uint32 time) {
-    previousTime = time;
+	previousTime = time;
 }
 
 Uint32 Game::getPreviousTime() const {
-    return previousTime;
+	return previousTime;
 }
 
 void Game::setCurrentTime(Uint32 time) {
-    currentTime = time;
+	currentTime = time;
 }
 
 Uint32 Game::getCurrentTime() const {
-    return currentTime;
+	return currentTime;
 }
 
 void Game::setLag(Uint32 lag) {
-    this->lag = lag;
+	this->lag = lag;
 }
 
 Uint32 Game::getLag() const {
-    return this->lag;
+	return this->lag;
 }
 
-//void Game::initialiseUILayer(TTF_Font* font, SDL_Renderer* renderer) {
-//    ui = std::make_unique<UI>(font, renderer);
-//}
-
 void Game::setRunning(bool isRunning) {
-    this->running = isRunning;
+	this->running = isRunning;
 }
 
 bool Game::isRunning() const {
-    return this->running;
+	return this->running;
 }
 
 void Game::setFullscreen(bool isFullscreen) {
-    this->fullscreen = isFullscreen;
+	this->fullscreen = isFullscreen;
 
-    Uint32 flags = 0;
+	Uint32 flags = 0;
 
-    if (this->isFullscreen()) {
-        flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
-    }
+	if (this->isFullscreen()) {
+		flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
+	}
 
-    SDL_SetWindowFullscreen(this->window, flags);
+	SDL_SetWindowFullscreen(this->window, flags);
 }
 
 bool Game::isFullscreen() const {
-    return this->fullscreen;
+	return this->fullscreen;
 }
 
 void Game::quit() {
-    Game::setRunning(false);
+	Game::setRunning(false);
 }

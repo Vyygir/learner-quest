@@ -9,18 +9,18 @@
 
 class Logger {
 public:
-    static Logger& instance();
-    static void log(const std::string& message);
-    static void warn(const std::string& message);
-    static void error(const std::string& message);
+	static Logger &instance();
+	static void log(const std::string &message);
+	static void warn(const std::string &message);
+	static void error(const std::string &message);
 
 private:
-    Logger();
+	Logger();
 
-    [[nodiscard]] static std::string getCurrentTime() ;
+	[[nodiscard]] static std::string getCurrentTime();
 
-    Logger(const Logger&) = delete;
-    Logger& operator=(const Logger&) = delete;
+	Logger(const Logger &) = delete;
+	Logger &operator=(const Logger &) = delete;
 };
 
 #endif // LOGGER_H

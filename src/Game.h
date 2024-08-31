@@ -8,40 +8,33 @@
 
 class Game {
 public:
-    Game(SDL_Window* window, SDL_Renderer* renderer);
+	Game(SDL_Window *window, SDL_Renderer *renderer);
 
-    void update();
+	void setCurrentTime(Uint32 time);
+	void setPreviousTime(Uint32 time);
+	void setLag(Uint32 lag);
+	void setRunning(bool isRunning);
+	void setFullscreen(bool isFullscreen);
 
-    void setPreviousTime(Uint32 time);
-    [[nodiscard]] Uint32 getPreviousTime() const;
+	SDL_Renderer *getRenderer();
+	[[nodiscard]] Uint32 getPreviousTime() const;
+	[[nodiscard]] Uint32 getCurrentTime() const;
+	[[nodiscard]] Uint32 getLag() const;
+	[[nodiscard]] bool isRunning() const;
+	[[nodiscard]] bool isFullscreen() const;
 
-    void setCurrentTime(Uint32 time);
-    [[nodiscard]] Uint32 getCurrentTime() const;
-
-    void setLag(Uint32 lag);
-    [[nodiscard]] Uint32 getLag() const;
-
-    SDL_Renderer* getRenderer();
-
-    void setFullscreen(bool isFullscreen);
-    [[nodiscard]] bool isFullscreen() const;
-
-//    void initialiseUILayer(TTF_Font* font, SDL_Renderer* renderer);
-
-    void quit();
-
-    void setRunning(bool isRunning);
-    [[nodiscard]] bool isRunning() const;
+	void update();
+	void quit();
 
 private:
-    bool running;
-    bool fullscreen;
+	bool running;
+	bool fullscreen;
 
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    Uint32 previousTime;
-    Uint32 currentTime;
-    Uint32 lag;
+	SDL_Window *window;
+	SDL_Renderer *renderer;
+	Uint32 previousTime;
+	Uint32 currentTime;
+	Uint32 lag;
 };
 
 #endif
