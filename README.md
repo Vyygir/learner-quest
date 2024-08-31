@@ -14,15 +14,15 @@ The purpose of this project is to build a simple 2D adventure game template that
 - "Scene" switching
 - Scenes with overridable logic
 - UI text rendering
+- Scene backgrounds
 
 ### Roadmap
 
-- Scene backgrounds
 - Scene transitions
 - Scene "prefabs" and elements
 - UI interaction
 - 2D collision physics
-- Player movement
+- Player objects
 - Element frame animation
 - Audio loop
 
@@ -40,5 +40,4 @@ I already have a lot of those, I don't need more.
 - CMake
 - SDL2
 - SDL2_TTF
-
----
+- SLD2_Image
