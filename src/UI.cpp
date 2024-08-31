@@ -152,8 +152,33 @@ void UI::createElement(
     rect.h = dimensions.h;
 
     if (scaleToWindow) {
-        rect.w = windowWidth * scale.x;
-        rect.h = windowHeight * scale.y;
+        float aspectRatio = static_cast<float>(rect.w) / static_cast<float>(rect.h);
+
+        if (scale.x <= 0.0f) {
+            scale.x = scale.y * aspectRatio;
+        }
+
+        if (scale.y <= 0.0f) {
+            scale.y = scale.x / aspectRatio;
+        }
+
+        if (rect.w > rect.h) {
+            rect.w = static_cast<int>(windowWidth * scale.x);
+            rect.h = static_cast<int>(rect.w / aspectRatio);
+
+            if (rect.h > windowHeight * scale.y) {
+                rect.h = static_cast<int>(windowHeight * scale.y);
+                rect.w = static_cast<int>(rect.h * aspectRatio);
+            }
+        } else {
+            rect.h = static_cast<int>(windowHeight * scale.y);
+            rect.w = static_cast<int>(rect.h * aspectRatio);
+
+            if (rect.w > windowWidth * scale.x) {
+                rect.w = static_cast<int>(windowWidth * scale.x);
+                rect.h = static_cast<int>(rect.w / aspectRatio);
+            }
+        }
     } else {
         if (scale.x != 1.0f) {
             rect.w *= scale.x;
