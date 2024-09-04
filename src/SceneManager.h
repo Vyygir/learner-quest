@@ -6,13 +6,13 @@
 #include <map>
 
 #include "Game.h"
-#include "UI.h"
+#include "Interface.h"
 
 class Scene;
 
 class SceneManager {
 public:
-	SceneManager(Game *game, UI *ui) : game(game), ui(ui) {}
+	SceneManager(Game *game, Interface *ui) : game(game), ui(ui) {}
 
 	void changeScene(const std::string &sceneName);
 	void updateCurrentScene(float delta);
@@ -26,7 +26,7 @@ public:
 
 private:
 	Game *game;
-	UI *ui;
+	Interface *ui;
 	std::shared_ptr<Scene> currentScene = nullptr;
 	std::map<std::string, std::shared_ptr<Scene>> scenes;
 };

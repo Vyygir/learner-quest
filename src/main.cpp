@@ -15,7 +15,7 @@
 
 #include "Game.h"
 #include "Events.h"
-#include "UI.h"
+#include "Interface.h"
 #include "SceneManager.h"
 #include "Utilities/Logger.h"
 
@@ -72,6 +72,7 @@ std::tuple<bool, SDL_Window *, SDL_Renderer *> setup() {
 	return std::make_tuple(init_failed, window, renderer);
 }
 
+
 int main() {
 	auto [init_failed, window, renderer] = setup();
 
@@ -80,10 +81,12 @@ int main() {
 		return 1;
 	}
 
+	Interface::initialise(renderer);
+
 	Game game(window, renderer);
-	UI ui(renderer);
+	Interface& ui = Interface::getInstance();
 	SceneManager sceneManager(&game, &ui);
-	Events events(&game, &sceneManager);
+	Events events(&game, &ui, &sceneManager);
 
 	game.setRunning(true);
 
@@ -100,8 +103,6 @@ int main() {
 	sceneManager.changeScene("Main");
 
 	Uint32 frameStart, frameTime, lag = 0;
-
-	unsigned int rgb[3];
 	int ticks = 0;
 
 	while (game.isRunning()) {
@@ -113,13 +114,9 @@ int main() {
 		game.setPreviousTime(currentTime);
 		lag += elapsed;
 
-		SDL_Color background = ui.getBackgroundColor();
-
 		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 
 		while (lag >= FIXED_INTERVAL) {
-			events.handle();
 			game.update();
 
 			lag -= FIXED_INTERVAL;
@@ -127,8 +124,11 @@ int main() {
 		}
 
 		sceneManager.updateCurrentScene((float) currentTime);
-		ui.draw();
+		events.handle();
 
+		SDL_Color background = ui.getBackgroundColor();
+
+		SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 		SDL_RenderPresent(renderer);
 
 		frameTime = SDL_GetTicks() - frameStart;

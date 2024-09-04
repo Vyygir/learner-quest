@@ -9,23 +9,21 @@ namespace Scenes {
 	class Third : public Scene {
 	public:
 		void onLoad() override {
-			Logger::log("Third scene has been loaded");
-
-			this->ui->setBackgroundColor({ 0, 0, 128 });
+			this->ui->setBackgroundColor({ 0, 0, 0 });
 		}
 
 		void onUpdate(float delta) override {
-			this->ui->addText(
+			(new UI::Text(
 				"Atkinson",
-				"Third Scene",
+				"This is the third scene",
 				{ 255, 255, 255, 255 },
-				32,
+				36,
 				{ HorizontalAlignment::Center, VerticalAlignment::Center }
-			);
+			))->render();
 		}
 
 		void onExit() override {
-			Logger::log("Third scene has been exited");
+//			Logger::log("Third scene has been exited");
 		}
 	};
 }

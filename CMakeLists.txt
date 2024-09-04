@@ -20,8 +20,8 @@ add_executable(learner_quest
     src/Game.h
     src/Events.cpp
     src/Events.h
-    src/UI.cpp
-    src/UI.h
+        src/Interface.cpp
+        src/Interface.h
     src/Utilities/Logger.cpp
     src/Utilities/Logger.h
     src/Scene.h
@@ -30,6 +30,11 @@ add_executable(learner_quest
     src/Scenes/Main.h
     src/Scenes/Second.h
     src/Scenes/Third.h
+        src/UI/Element.h
+        src/UI/Elements/Text.h
+        src/UI/Elements/Image.h
+        src/UI/Elements/RepeatableImage.h
+        src/UI/Elements.h
 )
 
 # Link the libraries to the executable

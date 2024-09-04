@@ -2,7 +2,7 @@
 #define SCENE_H
 
 #include "Game.h"
-#include "UI.h"
+#include "Interface.h"
 
 class SceneManager;
 
@@ -10,7 +10,7 @@ class Scene {
 public:
 	virtual ~Scene() = default;
 
-	void setContext(Game *game, SceneManager *sceneManager, UI *ui) {
+	void setContext(Game *game, SceneManager *sceneManager, Interface *ui) {
 		this->game = game;
 		this->sceneManager = sceneManager;
 		this->ui = ui;
@@ -28,7 +28,7 @@ public:
 protected:
 	Game *game;
 	SceneManager *sceneManager;
-	UI *ui;
+	Interface *ui;
 
 	bool loaded = false;
 };

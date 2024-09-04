@@ -2,16 +2,18 @@
 #define EVENTS_H
 
 #include "Game.h"
+#include "Interface.h"
 #include "SceneManager.h"
 
 class Events {
 public:
-	Events(Game *game, SceneManager *sceneManager);
+	Events(Game *game, Interface *ui, SceneManager *sceneManager);
 
 	void handle();
 
 private:
 	Game *game;
+	Interface *ui;
 	SceneManager *sceneManager;
 	SDL_Event event{};
 

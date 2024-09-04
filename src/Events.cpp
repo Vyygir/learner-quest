@@ -4,9 +4,13 @@
 #include "Utilities/Logger.h"
 #include "Scene.h"
 
-Events::Events(Game *game, SceneManager *sceneManager) : game(game), sceneManager(sceneManager) {}
+Events::Events(Game *game, Interface *ui, SceneManager *sceneManager) : game(game), ui(ui), sceneManager(sceneManager) {}
 
 void Events::handle() {
+//	SDL_Event WankOffButton{SDL_USEREVENT};
+//
+//	SDL_PushEvent(&WankOffButton);
+
 	while (SDL_PollEvent(&event) != 0) {
 		Uint32 type = event.type;
 

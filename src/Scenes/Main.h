@@ -4,45 +4,59 @@
 #include <iostream>
 #include "../Scene.h"
 #include "../Utilities/Logger.h"
+#include "../UI/Elements.h"
+
+using namespace UI;
 
 namespace Scenes {
 	class Main : public Scene {
 	public:
 		void onLoad() override {
-			Logger::log("Main scene has been loaded");
-
-			this->ui->setBackgroundColor({ 79, 177, 229 });
+			Interface::getInstance().setBackgroundColor({ 79, 177, 229 });
+//			this->ui->setBackgroundColor({ 79, 177, 229 });
 		}
 
 		void onUpdate(float delta) override {
-			this->ui->addImage(
+			(new UI::RepeatableImage(
 				"assets/media/menu/background.png",
-				Scale{ 0.0f, 0.55f },
-				true,
-				Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
 				true,
 				false,
-				this->backgroundOffset
-			);
+				Scale{ 0.0f, 0.55f },
+				Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
+				this->backgroundOffset,
+				true
+			))->render();
 
 			this->backgroundOffset = { this->backgroundOffset.x - 1, 0 };
 
-			this->ui->addImage(
-				"assets/media/logo.png",
-				Scale{ 0.75f, 0.75f },
-				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top },
-				false,
-				false,
-				{ 0, 100 }
-			);
-
-			this->ui->addText(
+			(new UI::Text(
 				"Atkinson",
 				"This is some extra long text that should be very readable.",
 				{ 255, 255, 255, 255 },
 				36,
 				{ HorizontalAlignment::Center, VerticalAlignment::Center }
-			);
+			))->render();
+
+			(new UI::Image(
+				"assets/media/logo.png",
+				Scale{ 0.0f, 0.12f },
+				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top },
+				true,
+				{ 0, 100 }
+			))->render();
+
+//			this->ui->addInteractableText(
+//				"Atkinson",
+//				"Hoverable Text",
+//				{ 255, 255, 255 },
+//				{ 255, 0, 0 },
+//				24,
+//				{ HorizontalAlignment::Center, VerticalAlignment::Bottom },
+//				{ 0, -150 },
+//				[]() {
+//					Logger::log("Clicked");
+//				}
+//			);
 		}
 
 		void onMouseMove(SDL_MouseMotionEvent event) override {
@@ -50,19 +64,19 @@ namespace Scenes {
 		}
 
 		void onMouseButton(SDL_MouseButtonEvent event) override {
-			Logger::log("User has submitted mouse button input");
-
-			if (event.button == SDL_BUTTON_LEFT) {
-				Logger::log("User has left clicked");
-			}
-
-			if (event.button == SDL_BUTTON_RIGHT) {
-				Logger::log("User has right clicked");
-			}
+//			Logger::log("User has submitted mouse button input");
+//
+//			if (event.button == SDL_BUTTON_LEFT) {
+//				Logger::log("User has left clicked");
+//			}
+//
+//			if (event.button == SDL_BUTTON_RIGHT) {
+//				Logger::log("User has right clicked");
+//			}
 		}
 
 		void onExit() override {
-			Logger::log("Main scene has been exited");
+//			Logger::log("Main scene has been exited");
 		}
 
 	private:

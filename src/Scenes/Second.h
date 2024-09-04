@@ -9,23 +9,21 @@ namespace Scenes {
 	class Second : public Scene {
 	public:
 		void onLoad() override {
-			Logger::log("Second scene has been loaded");
-
-			this->ui->setBackgroundColor({ 79, 177, 229 });
+			this->ui->setBackgroundColor({ 0, 0, 0 });
 		}
 
 		void onUpdate(float delta) override {
-			this->ui->addText(
+			(new UI::Text(
 				"Atkinson",
-				"Second Scene",
+				"This is the second scene",
 				{ 255, 255, 255, 255 },
-				32,
+				36,
 				{ HorizontalAlignment::Center, VerticalAlignment::Center }
-			);
+			))->render();
 		}
 
 		void onExit() override {
-			Logger::log("Second scene has been exited");
+//			Logger::log("Second scene has been exited");
 		}
 	};
 }
