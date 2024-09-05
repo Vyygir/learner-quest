@@ -55,7 +55,9 @@ struct InteractiveElement {
 	bool isClicked;
 };
 
+#include "Element.h"
 #include "Elements/Text.h"
+#include "Elements/InteractiveText.h"
 #include "Elements/Image.h"
 #include "Elements/RepeatableImage.h"
 

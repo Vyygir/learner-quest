@@ -9,7 +9,7 @@
 
 namespace UI {
 	class Text : public Element {
-	private:
+	protected:
 		TTF_Font* font;
 		std::string content;
 		SDL_Color color;
@@ -42,21 +42,18 @@ namespace UI {
 			 color(color)
 		{
 			this->font = Interface::getInstance().getFont(fontName, fontSize);
+		}
+
+		void render() override {
 			this->texture = createTexture();
 
-			if (texture) {
+			if (this->texture) {
 				int w, h;
 
 				SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
 
-				rect.w = w;
-				rect.h = h;
-			}
-		}
-
-		void render() override {
-			if (!texture) {
-				texture = createTexture();
+				this->rect.w = w;
+				this->rect.h = h;
 			}
 
 			Element::render();

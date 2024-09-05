@@ -4,6 +4,7 @@
 #include "SDL_image.h"
 #include "Utilities/Logger.h"
 #include "Interface.h"
+#include "UI/Elements.h"
 
 Interface* Interface::instance = nullptr;
 std::mutex Interface::instanceMutex;
@@ -73,4 +74,22 @@ void Interface::getWindowSize(int &width, int &height) const {
 	}
 
 	SDL_GetWindowSize(window, &width, &height);
+}
+
+void Interface::addElementEventHandler(UI::Element *element) {
+	auto it = std::find(this->interactiveElements.begin(), this->interactiveElements.end(), element);
+
+	if (it == this->interactiveElements.end()) {
+		this->interactiveElements.push_back(element);
+	}
+}
+
+void Interface::handleElementEvents(const SDL_Event &event) {
+	if (this->interactiveElements.empty()) {
+		return;
+	}
+
+	for (auto& element : this->interactiveElements) {
+		element->handleEvent(event);
+	}
 }

@@ -35,6 +35,8 @@ add_executable(learner_quest
         src/UI/Elements/Image.h
         src/UI/Elements/RepeatableImage.h
         src/UI/Elements.h
+        src/UI/Elements/InteractiveText.h
+        src/UI/ElementForward.h
 )
 
 # Link the libraries to the executable

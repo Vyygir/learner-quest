@@ -12,8 +12,17 @@ namespace Scenes {
 	class Main : public Scene {
 	public:
 		void onLoad() override {
-			Interface::getInstance().setBackgroundColor({ 79, 177, 229 });
-//			this->ui->setBackgroundColor({ 79, 177, 229 });
+			this->ui->setBackgroundColor({ 79, 177, 229 });
+
+			this->interactiveText = new UI::InteractiveText(
+				"Atkinson",
+				"This text should be clickable and change to red when the mouse is over it.",
+				{ 255, 255, 255, 255 },
+				24,
+				{ HorizontalAlignment::Center, VerticalAlignment::Bottom },
+				{ 1.0f, 1.0f },
+				{ 0, -40 }
+			);
 		}
 
 		void onUpdate(float delta) override {
@@ -37,6 +46,27 @@ namespace Scenes {
 				{ HorizontalAlignment::Center, VerticalAlignment::Center }
 			))->render();
 
+			this->interactiveText->addMouseOverEvent(
+				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
+					element->setColor({ 255, 0, 0, 255 });
+				}
+			);
+
+			this->interactiveText->addMouseOutEvent(
+				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
+					element->setColor({ 255, 255, 255, 255 });
+				}
+			);
+
+			this->interactiveText->addClickEvent(
+				[this](const SDL_MouseButtonEvent &event, UI::InteractiveText *element) {
+					this->sceneManager->changeScene("Second");
+				}
+			);
+
+			this->ui->addElementEventHandler(this->interactiveText);
+			this->interactiveText->render();
+
 			(new UI::Image(
 				"assets/media/logo.png",
 				Scale{ 0.0f, 0.12f },
@@ -44,19 +74,6 @@ namespace Scenes {
 				true,
 				{ 0, 100 }
 			))->render();
-
-//			this->ui->addInteractableText(
-//				"Atkinson",
-//				"Hoverable Text",
-//				{ 255, 255, 255 },
-//				{ 255, 0, 0 },
-//				24,
-//				{ HorizontalAlignment::Center, VerticalAlignment::Bottom },
-//				{ 0, -150 },
-//				[]() {
-//					Logger::log("Clicked");
-//				}
-//			);
 		}
 
 		void onMouseMove(SDL_MouseMotionEvent event) override {
@@ -81,6 +98,8 @@ namespace Scenes {
 
 	private:
 		Offset backgroundOffset = { -100, 0 };
+
+		UI::InteractiveText* interactiveText;
 	};
 }
 

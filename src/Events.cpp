@@ -26,6 +26,9 @@ void Events::handle() {
 			this->keyPress(event.key.keysym.sym);
 		}
 
+		// Handling interface events.
+		this->ui->handleElementEvents(event);
+
 		// Handling scene events.
 		std::shared_ptr<Scene> currentScene = this->sceneManager->getCurrentScene();
 

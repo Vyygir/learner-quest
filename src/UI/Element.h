@@ -4,7 +4,7 @@
 #pragma once
 
 #include "SDL.h"
-#include "../Interface.h"
+#include "Forward/Element.h"
 
 namespace UI {
 	class Element {
@@ -88,6 +88,20 @@ namespace UI {
 			this->rect.y += offset.y;
 		}
 
+	protected:
+		[[nodiscard]]
+		bool isWithinBounds(int x, int y) const {
+			if (x < this->rect.x || x > (this->rect.x + this->rect.w)) {
+				return false;
+			}
+
+			if (y < this->rect.y || y > (this->rect.y + this->rect.h)) {
+				return false;
+			}
+
+			return true;
+		}
+
 	public:
 		Element(
 			SDL_Texture *texture,
@@ -102,19 +116,6 @@ namespace UI {
 			if (this->texture) {
 				SDL_DestroyTexture(this->texture);
 			}
-		}
-
-		[[nodiscard]]
-		bool isWithinBounds(int x, int y) const {
-			if (x < this->rect.x || x > (this->rect.x + this->rect.w)) {
-				return false;
-			}
-
-			if (y < this->rect.y || y > (this->rect.y + this->rect.h)) {
-				return false;
-			}
-
-			return true;
 		}
 
 		virtual void render() {
@@ -138,6 +139,8 @@ namespace UI {
 		bool getVisibility() const {
 			return this->isVisible;
 		}
+
+		virtual void handleEvent(const SDL_Event &event) {};
 	};
 }
 
