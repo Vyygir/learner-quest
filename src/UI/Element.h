@@ -15,7 +15,9 @@ namespace UI {
 		Alignment alignment;
 		Scale scale;
 		Offset offset;
+		Offset normalOffset;
 		bool scaleToWindow;
+		Dimensions previousWindowSize = { DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT };
 
 		void updateRectSize(int windowWidth, int windowHeight, Dimensions dimensions) {
 			// Scale the dimensions based on the provided scale and window size.
@@ -110,7 +112,7 @@ namespace UI {
 			Scale scale,
 			Offset offset,
 			bool scaleToWindow
-		) : texture(texture), rect(rect), alignment(alignment), scale(scale), offset(offset), scaleToWindow(scaleToWindow), isVisible(true) {}
+		) : texture(texture), rect(rect), alignment(alignment), scale(scale), offset(offset), normalOffset(offset), scaleToWindow(scaleToWindow), isVisible(true) {}
 
 		virtual ~Element() {
 			if (this->texture) {
@@ -127,6 +129,15 @@ namespace UI {
 
 			int windowWidth, windowHeight;
 			SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+
+			if (this->previousWindowSize.w != windowWidth || this->previousWindowSize.h != windowHeight) {
+				this->previousWindowSize = { windowWidth, windowHeight };
+
+				this->setOffset({
+					(this->normalOffset.x * windowWidth) / DEFAULT_WINDOW_WIDTH,
+					(this->normalOffset.y * windowHeight / DEFAULT_WINDOW_HEIGHT)
+				});
+			}
 
 			updateRectSize(windowWidth, windowHeight, { rect.w, rect.h });
 			SDL_RenderCopy(renderer, this->texture, nullptr, &this->rect);

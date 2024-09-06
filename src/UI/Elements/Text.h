@@ -15,7 +15,6 @@ namespace UI {
 		int normalSize;
 		int fontSize;
 		bool scaleFont;
-		int previousWindowWidth;
 
 		void createFont() {
 			int size = this->fontSize ? this->fontSize : this->normalSize;
@@ -72,11 +71,16 @@ namespace UI {
 				int windowWidth, windowHeight;
 				Interface::getInstance().getWindowSize(windowWidth, windowHeight);
 
-				if (windowWidth != this->previousWindowWidth) {
-					this->previousWindowWidth = windowWidth;
-					this->fontSize = (this->normalSize  * windowWidth) / DEFAULT_WINDOW_WIDTH;
+				if (windowWidth != this->previousWindowSize.w || windowHeight != this->previousWindowSize.h) {
+					this->previousWindowSize = { windowWidth, windowHeight };
+					this->fontSize = (this->normalSize * windowWidth) / DEFAULT_WINDOW_WIDTH;
 
 					this->createFont();
+
+					this->setOffset({
+						(this->normalOffset.x * windowWidth) / DEFAULT_WINDOW_WIDTH,
+						(this->normalOffset.y * windowHeight / DEFAULT_WINDOW_HEIGHT)
+					});
 				}
 			}
 
