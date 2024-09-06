@@ -13,25 +13,17 @@
 #include "SDL.h"
 #include "SDL_ttf.h"
 
+#include "Options.h"
 #include "Game.h"
 #include "Events.h"
 #include "Interface.h"
 #include "SceneManager.h"
 #include "Utilities/Logger.h"
 
-
 // Scenes
 #include "Scenes/Main.h"
 #include "Scenes/Second.h"
 #include "Scenes/Third.h"
-
-const char *TITLE = "2D Adventure Game";
-
-const std::tuple<int, int> RESOLUTION = std::make_tuple(1280, 720);
-
-const int FRAME_RATE = 144;
-const int ENGINE_SPEED = 60;
-const Uint32 FIXED_INTERVAL = 1000 / ENGINE_SPEED;
 
 void clean(SDL_Window *window) {
 	SDL_DestroyWindow(window);
