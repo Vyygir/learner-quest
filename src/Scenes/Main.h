@@ -14,6 +14,16 @@ namespace Scenes {
 		void onLoad() override {
 			this->ui->setBackgroundColor({ 79, 177, 229 });
 
+			this->clouds = new UI::RepeatableImage(
+				"assets/media/menu/background.png",
+				true,
+				false,
+				Scale{ 0.0f, 0.55f },
+				Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
+				this->backgroundOffset,
+				true
+			);
+
 			this->interactiveText = new UI::InteractiveText(
 				"Atkinson",
 				"This text should be clickable and change to red when the mouse is over it.",
@@ -26,17 +36,7 @@ namespace Scenes {
 		}
 
 		void onUpdate(float delta) override {
-			(new UI::RepeatableImage(
-				"assets/media/menu/background.png",
-				true,
-				false,
-				Scale{ 0.0f, 0.55f },
-				Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
-				this->backgroundOffset,
-				true
-			))->render();
-
-			this->backgroundOffset = { this->backgroundOffset.x - 1, 0 };
+			this->clouds->render();
 
 			(new UI::Text(
 				"Atkinson",
@@ -76,6 +76,11 @@ namespace Scenes {
 			))->render();
 		}
 
+		void onTick() override {
+			this->backgroundOffset = { this->backgroundOffset.x - 1, 0 };
+			this->clouds->setOffset(this->backgroundOffset);
+		}
+
 		void onMouseMove(SDL_MouseMotionEvent event) override {
 //            Logger::log("User is moving the mouse");
 		}
@@ -99,6 +104,7 @@ namespace Scenes {
 	private:
 		Offset backgroundOffset = { -100, 0 };
 
+		UI::RepeatableImage* clouds;
 		UI::InteractiveText* interactiveText;
 	};
 }
