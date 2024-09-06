@@ -27,9 +27,7 @@ add_executable(learner_quest
     src/Scene.h
     src/SceneManager.cpp
     src/SceneManager.h
-    src/Scenes/Main.h
-    src/Scenes/Second.h
-    src/Scenes/Third.h
+    src/Scenes/MainMenu.h
     src/UI/Element.h
     src/UI/Elements/Text.h
     src/UI/Elements/Image.h

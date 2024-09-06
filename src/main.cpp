@@ -21,9 +21,7 @@
 #include "Utilities/Logger.h"
 
 // Scenes
-#include "Scenes/Main.h"
-#include "Scenes/Second.h"
-#include "Scenes/Third.h"
+#include "Scenes/MainMenu.h"
 
 void clean(SDL_Window *window) {
 	SDL_DestroyWindow(window);
@@ -87,13 +85,12 @@ int main() {
 	ui.addFont("Atkinson Bold", "assets/fonts/AtkinsonHyperlegible-Bold.ttf");
 	ui.addFont("Atkinson Italic", "assets/fonts/AtkinsonHyperlegible-Italic.ttf");
 	ui.addFont("Atkinson Bold Italic", "assets/fonts/AtkinsonHyperlegible-BoldItalic.ttf");
+	ui.addFont("Mini Pixel", "assets/fonts/MiniPixel-7.ttf");
 
-	sceneManager.addScene("Main", std::make_unique<Scenes::Main>());
-	sceneManager.addScene("Second", std::make_unique<Scenes::Second>());
-	sceneManager.addScene("Third", std::make_unique<Scenes::Third>());
+	sceneManager.addScene("Main Menu", std::make_unique<Scenes::MainMenu>());
 
 	// Set the default scene.
-	sceneManager.changeScene("Main");
+	sceneManager.changeScene("Main Menu");
 
 	Uint32 frameStart, frameTime, lag = 0;
 	int ticks = 0;

@@ -132,6 +132,10 @@ namespace UI {
 			SDL_RenderCopy(renderer, this->texture, nullptr, &this->rect);
 		}
 
+		SDL_Rect getRect() {
+			return this->rect;
+		}
+
 		void setAlignment(Alignment alignment) {
 			this->alignment = alignment;
 		}

@@ -4,6 +4,7 @@
 #pragma once
 
 const int DEFAULT_WINDOW_WIDTH = 1280;
+const int DEFAULT_WINDOW_HEIGHT = 720;
 
 struct Dimensions {
 	int w = -1;
