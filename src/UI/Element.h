@@ -132,6 +132,18 @@ namespace UI {
 			SDL_RenderCopy(renderer, this->texture, nullptr, &this->rect);
 		}
 
+		void setAlignment(Alignment alignment) {
+			this->alignment = alignment;
+		}
+
+		void setScale(Scale scale) {
+			this->scale = scale;
+		}
+
+		void setOffset(Offset offset) {
+			this->offset = offset;
+		}
+
 		void setVisibility(bool visibility) {
 			this->isVisible = visibility;
 		}
