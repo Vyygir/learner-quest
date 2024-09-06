@@ -10,16 +10,18 @@ namespace Scenes {
 	public:
 		void onLoad() override {
 			this->ui->setBackgroundColor({ 0, 0, 0 });
-		}
 
-		void onUpdate(float delta) override {
-			(new UI::Text(
+			addElement("TestText", new UI::Text(
 				"Atkinson",
 				"This is the third scene",
 				{ 255, 255, 255, 255 },
 				36,
 				{ HorizontalAlignment::Center, VerticalAlignment::Center }
-			))->render();
+			));
+		}
+
+		void onUpdate(float delta) override {
+			getElement<UI::Text>("TestText")->render();
 		}
 
 		void onExit() override {
