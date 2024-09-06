@@ -37,7 +37,9 @@ namespace Scenes {
 				"This is some extra long text that should be very readable.",
 				{ 255, 255, 255, 255 },
 				36,
-				{ HorizontalAlignment::Center, VerticalAlignment::Center }
+				{ HorizontalAlignment::Center, VerticalAlignment::Center },
+				{ 0, 0 },
+				true
 			));
 
 			auto* exampleInteractiveText = new UI::InteractiveText(
@@ -46,8 +48,8 @@ namespace Scenes {
 				{ 255, 255, 255, 255 },
 				24,
 				{ HorizontalAlignment::Center, VerticalAlignment::Bottom },
-				{ 1.0f, 1.0f },
-				{ 0, -40 }
+				{ 0, -40 },
+				true
 			);
 
 			this->ui->addElementEventHandler(exampleInteractiveText);

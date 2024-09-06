@@ -3,6 +3,8 @@
 
 #pragma once
 
+const int DEFAULT_WINDOW_WIDTH = 1280;
+
 struct Dimensions {
 	int w = -1;
 	int h = -1;

@@ -27,6 +27,7 @@ public:
 	void addElementEventHandler(UI::Element *element);
 	void handleElementEvents(const SDL_Event &event);
 
+	void getWindowSize(int &width, int &height) const;
 private:
 	explicit Interface(SDL_Renderer *renderer);
 	~Interface();
@@ -44,7 +45,6 @@ private:
 
 	std::vector<UI::Element*> interactiveElements;
 
-	void getWindowSize(int &width, int &height) const;
 };
 
 #endif

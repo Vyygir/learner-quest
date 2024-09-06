@@ -4,21 +4,40 @@
 #pragma once
 
 #include "SDL.h"
+//#include "../../Options.h"
 #include "../../Utilities/Logger.h"
 #include "../Element.h"
 
 namespace UI {
 	class Text : public Element {
+	private:
+		const std::string fontName;
+		int normalSize;
+		int fontSize;
+		bool scaleFont;
+		int previousWindowWidth;
+
+		void createFont() {
+			int size = this->fontSize ? this->fontSize : this->normalSize;
+
+			this->font = Interface::getInstance().getFont(fontName, size);
+		}
+
 	protected:
 		TTF_Font* font;
 		std::string content;
 		SDL_Color color;
 
 		SDL_Texture* createTexture() {
+			if (!this->font) {
+				Logger::warn("Font was not present:\n\t" + std::string(TTF_GetError()));
+				return nullptr;
+			}
+
 			SDL_Surface *surface = TTF_RenderText_Blended(this->font, this->content.c_str(), this->color);
 
 			if (!surface) {
-				Logger::warn("Failed to render text: " + this->content);
+				Logger::warn("Failed to render text: \n\tContent: \"" + this->content + "\"\n\tError:   " + SDL_GetError());
 				return nullptr;
 			}
 
@@ -35,16 +54,32 @@ namespace UI {
 			SDL_Color color,
 			int fontSize,
 			Alignment alignment,
-			Scale scale = { 1.0f, 1.0f },
-			Offset offset = { 0, 0 }
-		) : Element(nullptr, {0, 0, 0, 0}, alignment, scale, offset, false),
-			 content(content),
-			 color(color)
+			Offset offset = { 0, 0 },
+			bool scaleFont = false
+		) : Element(nullptr, {0, 0, 0, 0}, alignment, { 1.0f, 1.0f }, offset, false),
+			fontName(fontName),
+			content(content),
+			normalSize(fontSize),
+			fontSize(fontSize),
+			color(color),
+			scaleFont(scaleFont)
 		{
-			this->font = Interface::getInstance().getFont(fontName, fontSize);
+			this->createFont();
 		}
 
 		void render() override {
+			if (this->scaleFont) {
+				int windowWidth, windowHeight;
+				Interface::getInstance().getWindowSize(windowWidth, windowHeight);
+
+				if (windowWidth != this->previousWindowWidth) {
+					this->previousWindowWidth = windowWidth;
+					this->fontSize = (this->normalSize  * windowWidth) / DEFAULT_WINDOW_WIDTH;
+
+					this->createFont();
+				}
+			}
+
 			this->texture = createTexture();
 
 			if (this->texture) {

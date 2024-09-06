@@ -44,9 +44,9 @@ namespace UI {
 			SDL_Color color,
 			int fontSize,
 			Alignment alignment,
-			Scale scale = { 1.0f, 1.0f },
-			Offset offset = { 0, 0 }
-		) : Text(fontName, content, color, fontSize, alignment, scale, offset) {}
+			Offset offset = { 0, 0 },
+			bool scaleFont = false
+		) : Text(fontName, content, color, fontSize, alignment, offset, scaleFont) {}
 
 		void handleEvent(const SDL_Event &event) override {
 			switch (event.type) {
