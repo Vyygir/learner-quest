@@ -14,7 +14,7 @@ namespace Scenes {
 		void onLoad() override {
 			this->ui->setBackgroundColor({ 79, 177, 229 });
 
-			this->clouds = new UI::RepeatableImage(
+			addElement("CloudBackground", new UI::RepeatableImage(
 				"assets/media/menu/background.png",
 				true,
 				false,
@@ -22,9 +22,25 @@ namespace Scenes {
 				Alignment{ HorizontalAlignment::Left, VerticalAlignment::Top },
 				this->backgroundOffset,
 				true
-			);
+			));
 
-			this->interactiveText = new UI::InteractiveText(
+			addElement("Logo", new UI::Image(
+				"assets/media/logo.png",
+				Scale{ 0.0f, 0.12f },
+				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top },
+				true,
+				{ 0, 100 }
+			));
+
+			addElement("ExampleLabel", new UI::Text(
+				"Atkinson",
+				"This is some extra long text that should be very readable.",
+				{ 255, 255, 255, 255 },
+				36,
+				{ HorizontalAlignment::Center, VerticalAlignment::Center }
+			));
+
+			auto* exampleInteractiveText = new UI::InteractiveText(
 				"Atkinson",
 				"This text should be clickable and change to red when the mouse is over it.",
 				{ 255, 255, 255, 255 },
@@ -33,52 +49,42 @@ namespace Scenes {
 				{ 1.0f, 1.0f },
 				{ 0, -40 }
 			);
+
+			this->ui->addElementEventHandler(exampleInteractiveText);
+			addElement("ExampleInteractiveText", exampleInteractiveText);
 		}
 
 		void onUpdate(float delta) override {
-			this->clouds->render();
+			getElement<UI::RepeatableImage>("CloudBackground")->render();
+			getElement<UI::Image>("Logo")->render();
+			getElement<UI::Text>("ExampleLabel")->render();
 
-			(new UI::Text(
-				"Atkinson",
-				"This is some extra long text that should be very readable.",
-				{ 255, 255, 255, 255 },
-				36,
-				{ HorizontalAlignment::Center, VerticalAlignment::Center }
-			))->render();
+			auto* button = getElement<UI::InteractiveText>("ExampleInteractiveText");
 
-			this->interactiveText->addMouseOverEvent(
+			button->addMouseOverEvent(
 				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
 					element->setColor({ 255, 0, 0, 255 });
 				}
 			);
 
-			this->interactiveText->addMouseOutEvent(
+			button->addMouseOutEvent(
 				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
 					element->setColor({ 255, 255, 255, 255 });
 				}
 			);
 
-			this->interactiveText->addClickEvent(
+			button->addClickEvent(
 				[this](const SDL_MouseButtonEvent &event, UI::InteractiveText *element) {
 					this->sceneManager->changeScene("Second");
 				}
 			);
 
-			this->ui->addElementEventHandler(this->interactiveText);
-			this->interactiveText->render();
-
-			(new UI::Image(
-				"assets/media/logo.png",
-				Scale{ 0.0f, 0.12f },
-				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top },
-				true,
-				{ 0, 100 }
-			))->render();
+			button->render();
 		}
 
 		void onTick() override {
 			this->backgroundOffset = { this->backgroundOffset.x - 1, 0 };
-			this->clouds->setOffset(this->backgroundOffset);
+			getElement<UI::RepeatableImage>("CloudBackground")->setOffset(this->backgroundOffset);
 		}
 
 		void onMouseMove(SDL_MouseMotionEvent event) override {

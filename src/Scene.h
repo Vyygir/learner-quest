@@ -3,6 +3,7 @@
 
 #include "Game.h"
 #include "Interface.h"
+#include "Utilities/Logger.h"
 
 class SceneManager;
 
@@ -32,6 +33,28 @@ protected:
 	Interface *ui;
 
 	bool loaded = false;
+
+	void addElement(const std::string &name, UI::Element* element) {
+		if (this->elements.find(name) != this->elements.end()) {
+			Logger::warn("An element called \"" + name + "\" has already been added to this scene");
+			return;
+		}
+
+		this->elements[name] = element;
+	}
+
+	template <typename T>
+	T* getElement(const std::string &name) {
+		if (this->elements.find(name) == this->elements.end()) {
+			Logger::warn("Couldn't find an element called \"" + name + "\" in this scene");
+			return nullptr;
+		}
+
+		return dynamic_cast<T*>(this->elements[name]);
+	}
+
+private:
+	std::map<std::string, UI::Element*> elements;
 };
 
 #endif
