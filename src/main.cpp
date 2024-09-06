@@ -122,6 +122,11 @@ int main() {
 
 			lag -= FIXED_INTERVAL;
 			ticks++;
+
+			if (ticks >= 3) {
+				sceneManager.tickScene();
+				ticks = 0;
+			}
 		}
 
 		sceneManager.updateCurrentScene((float) currentTime);

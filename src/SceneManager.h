@@ -16,6 +16,7 @@ public:
 
 	void changeScene(const std::string &sceneName);
 	void updateCurrentScene(float delta);
+	void tickScene();
 	void addScene(const std::string &sceneName, std::shared_ptr<Scene> scene);
 	void exitCurrentScene();
 

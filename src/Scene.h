@@ -18,6 +18,7 @@ public:
 
 	virtual void onLoad() {};
 	virtual void onUpdate(float delta) {};
+	virtual void onTick() {};
 	virtual void onMouseMove(SDL_MouseMotionEvent event) {};
 	virtual void onMouseButton(SDL_MouseButtonEvent event) {};
 	virtual void onExit() {};

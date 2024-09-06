@@ -20,6 +20,12 @@ void SceneManager::updateCurrentScene(float delta) {
 	}
 }
 
+void SceneManager::tickScene() {
+	if (this->currentScene) {
+		this->currentScene->onTick();
+	}
+}
+
 void SceneManager::addScene(const std::string &sceneName, std::shared_ptr<Scene> scene) {
 	scene->setContext(this->game, this, this->ui);
 	scenes[sceneName] = std::move(scene);
