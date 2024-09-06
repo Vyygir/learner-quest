@@ -40,6 +40,10 @@ void Events::handle() {
 			if (type == SDL_MOUSEBUTTONDOWN) {
 				currentScene->onMouseButton(event.button);
 			}
+
+			if (type == SDL_WINDOWEVENT || type == SDL_WINDOWEVENT_SIZE_CHANGED) {
+				currentScene->onResize(event.window.data1, event.window.data2);
+			}
 		}
 	}
 }
