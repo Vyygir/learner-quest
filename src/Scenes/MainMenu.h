@@ -110,7 +110,7 @@ namespace Scenes {
 				"MenuItemQuit",
 				"Quit",
 				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
-					element->setColor({ 255, 255, 255, 180 });
+					element->setColor({ 220, 20, 60, 255 });
 				},
 				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
 					element->setColor({ 255, 255, 255, 255 });
