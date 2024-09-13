@@ -123,6 +123,7 @@ int main() {
 
 		SDL_Color background = ui.getBackgroundColor();
 
+		SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 		SDL_SetRenderDrawColor(renderer, background.r, background.g, background.b, background.a);
 		SDL_RenderPresent(renderer);
 
