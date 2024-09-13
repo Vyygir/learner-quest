@@ -13,15 +13,19 @@ namespace UI {
 		SDL_Rect rect;
 		bool isVisible;
 		Alignment alignment;
-		Scale scale;
+		Scale scale = { 1.0f, 1.0f };
+		Dimensions dimensions = { 0, 0 };
 		Offset offset;
 		Offset normalOffset;
 		bool scaleToWindow;
 		Dimensions previousWindowSize = { DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT };
 
 		void updateRectSize(int windowWidth, int windowHeight, Dimensions dimensions) {
-			// Scale the dimensions based on the provided scale and window size.
-			if (this->scaleToWindow) {
+			if ( this->dimensions.w > 0 && this->dimensions.h > 0) {
+				this->rect.w = this->dimensions.w;
+				this->rect.h = this->dimensions.h;
+			} else if (this->scaleToWindow) {
+				bool unscaled = (dimensions.w <= 0 && dimensions.h <= 0);
 				float aspectRatio = static_cast<float>(dimensions.w) / static_cast<float>(dimensions.h);
 
 				if (this->scale.x <= 0.0f) {
@@ -32,7 +36,10 @@ namespace UI {
 					this->scale.y = this->scale.x / aspectRatio;
 				}
 
-				if (dimensions.w > dimensions.h) {
+				if (unscaled) {
+					this->rect.w = static_cast<int>(windowWidth * this->scale.x);
+					this->rect.h = static_cast<int>(windowHeight * this->scale.y);
+				} else if (dimensions.w > dimensions.h) {
 					this->rect.w = static_cast<int>(windowWidth * this->scale.x);
 					this->rect.h = static_cast<int>(this->rect.w / aspectRatio);
 
@@ -114,10 +121,37 @@ namespace UI {
 			bool scaleToWindow
 		) : texture(texture), rect(rect), alignment(alignment), scale(scale), offset(offset), normalOffset(offset), scaleToWindow(scaleToWindow), isVisible(true) {}
 
+		Element(
+			SDL_Texture *texture,
+			SDL_Rect rect,
+			Alignment alignment,
+			Dimensions dimensions,
+			Offset offset,
+			bool scaleToWindow
+		) : texture(texture), rect(rect), alignment(alignment), dimensions(dimensions), offset(offset), normalOffset(offset), scaleToWindow(scaleToWindow), isVisible(true) {}
+
 		virtual ~Element() {
 			if (this->texture) {
 				SDL_DestroyTexture(this->texture);
 			}
+		}
+
+		virtual void preRender(SDL_Renderer* renderer) {
+			int windowWidth, windowHeight;
+			SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+
+			if (this->previousWindowSize.w != windowWidth || this->previousWindowSize.h != windowHeight) {
+				this->previousWindowSize = { windowWidth, windowHeight };
+
+				this->setOffset(
+					{
+						(this->normalOffset.x * windowWidth) / DEFAULT_WINDOW_WIDTH,
+						(this->normalOffset.y * windowHeight / DEFAULT_WINDOW_HEIGHT)
+					}
+				);
+			}
+
+			updateRectSize(windowWidth, windowHeight, { this->rect.w, this->rect.h });
 		}
 
 		virtual void render() {
@@ -127,19 +161,8 @@ namespace UI {
 
 			SDL_Renderer* renderer = Interface::getInstance().getRenderer();
 
-			int windowWidth, windowHeight;
-			SDL_GetRendererOutputSize(renderer, &windowWidth, &windowHeight);
+			this->preRender(renderer);
 
-			if (this->previousWindowSize.w != windowWidth || this->previousWindowSize.h != windowHeight) {
-				this->previousWindowSize = { windowWidth, windowHeight };
-
-				this->setOffset({
-					(this->normalOffset.x * windowWidth) / DEFAULT_WINDOW_WIDTH,
-					(this->normalOffset.y * windowHeight / DEFAULT_WINDOW_HEIGHT)
-				});
-			}
-
-			updateRectSize(windowWidth, windowHeight, { rect.w, rect.h });
 			SDL_RenderCopy(renderer, this->texture, nullptr, &this->rect);
 		}
 
@@ -147,16 +170,16 @@ namespace UI {
 			return this->rect;
 		}
 
-		void setAlignment(Alignment alignment) {
-			this->alignment = alignment;
+		void setAlignment(Alignment newAlignment) {
+			this->alignment = newAlignment;
 		}
 
-		void setScale(Scale scale) {
-			this->scale = scale;
+		void setScale(Scale newScale) {
+			this->scale = newScale;
 		}
 
-		void setOffset(Offset offset) {
-			this->offset = offset;
+		void setOffset(Offset newOffset) {
+			this->offset = newOffset;
 		}
 
 		void setVisibility(bool visibility) {

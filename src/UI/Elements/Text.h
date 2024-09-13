@@ -55,7 +55,7 @@ namespace UI {
 			Alignment alignment,
 			Offset offset = { 0, 0 },
 			bool scaleFont = false
-		) : Element(nullptr, {0, 0, 0, 0}, alignment, { 1.0f, 1.0f }, offset, false),
+		) : Element(nullptr, {0, 0, 0, 0}, alignment, Scale{ 1.0f, 1.0f }, offset, false),
 			fontName(fontName),
 			content(content),
 			normalSize(fontSize),

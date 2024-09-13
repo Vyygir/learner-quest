@@ -59,6 +59,7 @@ struct InteractiveElement {
 };
 
 #include "Element.h"
+#include "Elements/Box.h"
 #include "Elements/Text.h"
 #include "Elements/InteractiveText.h"
 #include "Elements/Image.h"
