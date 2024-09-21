@@ -4,12 +4,15 @@
 #include "Game.h"
 #include "Interface.h"
 #include "Utilities/Logger.h"
+#include "UI/Elements.h"
 
 class SceneManager;
 
 class Scene {
 public:
-	virtual ~Scene() = default;
+	 virtual ~Scene() {
+		this->elements.clear();
+	};
 
 	void setContext(Game *game, SceneManager *sceneManager, Interface *ui) {
 		this->game = game;
@@ -41,7 +44,27 @@ protected:
 			return;
 		}
 
+		element->setName(name);
+
 		this->elements[name] = element;
+	}
+
+	void addElement(const std::string &name, const std::string &parent, UI::Element* element) {
+		if (this->elements.find(name) != this->elements.end()) {
+			Logger::warn("An element called \"" + name + "\" has already been added to this scene");
+			return;
+		}
+
+		if (this->elements.find(parent) == this->elements.end()) {
+			Logger::warn("Parent element could not be assigned. No element called  \"" + parent + "\" is in this scene");
+			return;
+		}
+
+		element->setName(name);
+		element->setParent(this->elements[parent]);
+
+		this->elements[name] = element;
+
 	}
 
 	template <typename T>

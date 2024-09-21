@@ -8,8 +8,13 @@
 
 namespace UI {
 	class Element {
+	private:
+		std::string name;
+		UI::Element* parent = nullptr;
+
 	protected:
-		SDL_Texture *texture;
+		bool rendered = false;
+		SDL_Texture* texture;
 		SDL_Rect rect;
 		bool isVisible;
 		Alignment alignment;
@@ -95,9 +100,38 @@ namespace UI {
 			// Apply the offset
 			this->rect.x += offset.x;
 			this->rect.y += offset.y;
+
+			// Potentially apply parent offsets
+			if (this->parent) {
+				SDL_Rect parentRect = this->parent->getRect();
+
+				switch (alignment.x) {
+					case HorizontalAlignment::Left:
+						this->rect.x = parentRect.x;
+						break;
+					case HorizontalAlignment::Center:
+						this->rect.x = parentRect.x + (parentRect.w / 2) - (this->rect.w / 2);
+						break;
+					case HorizontalAlignment::Right:
+						this->rect.x = (parentRect.w + parentRect.x) - this->rect.w;
+						break;
+				}
+
+				// Vertical alignment
+				switch (alignment.y) {
+					case VerticalAlignment::Top:
+						this->rect.y = parentRect.y;
+						break;
+					case VerticalAlignment::Center:
+						this->rect.y = parentRect.y + (parentRect.h / 2) - (this->rect.h / 2);
+						break;
+					case VerticalAlignment::Bottom:
+						this->rect.y = (parentRect.h + parentRect.y) - this->rect.h;
+						break;
+				}
+			}
 		}
 
-	protected:
 		[[nodiscard]]
 		bool isWithinBounds(int x, int y) const {
 			if (x < this->rect.x || x > (this->rect.x + this->rect.w)) {
@@ -164,6 +198,8 @@ namespace UI {
 			this->preRender(renderer);
 
 			SDL_RenderCopy(renderer, this->texture, nullptr, &this->rect);
+
+			this->rendered = true;
 		}
 
 		SDL_Rect getRect() {
@@ -188,6 +224,23 @@ namespace UI {
 
 		bool getVisibility() const {
 			return this->isVisible;
+		}
+
+		void setParent(UI::Element* element) {
+			this->parent = element;
+		}
+
+		bool hasRendered() const {
+			return this->rendered;
+		}
+
+		void setName(const std::string &elementName) {
+			this->name = elementName;
+		}
+
+		[[nodiscard]]
+		UI::Element* getParent() const {
+			return this->parent;
 		}
 
 		virtual void handleEvent(const SDL_Event &event) {};

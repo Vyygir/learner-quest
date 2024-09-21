@@ -27,7 +27,6 @@ add_executable(learner_quest
     src/Scene.h
     src/SceneManager.cpp
     src/SceneManager.h
-    src/Scenes/MainMenu.h
     src/UI/Element.h
     src/UI/Elements/Box.h
     src/UI/Elements/Text.h
@@ -37,6 +36,8 @@ add_executable(learner_quest
     src/UI/Elements/InteractiveText.h
     src/UI/Forward/Element.h
     src/Options.h
+    src/Scenes/MainMenu.h
+    src/Scenes/TestScene.h
 )
 
 # Link the libraries to the executable

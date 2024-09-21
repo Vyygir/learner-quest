@@ -22,6 +22,7 @@
 
 // Scenes
 #include "Scenes/MainMenu.h"
+#include "Scenes/TestScene.h"
 
 void clean(SDL_Window *window) {
 	SDL_DestroyWindow(window);
@@ -87,10 +88,11 @@ int main() {
 	ui.addFont("Atkinson Bold Italic", "assets/fonts/AtkinsonHyperlegible-BoldItalic.ttf");
 	ui.addFont("Mini Pixel", "assets/fonts/MiniPixel-7.ttf");
 
-	sceneManager.addScene("Main Menu", std::make_unique<Scenes::MainMenu>());
+	sceneManager.addScene("MainMenu", std::make_unique<Scenes::MainMenu>());
+	sceneManager.addScene("TestScene", std::make_unique<Scenes::TestScene>());
 
 	// Set the default scene.
-	sceneManager.changeScene("Main Menu");
+	sceneManager.changeScene("MainMenu");
 
 	Uint32 frameStart, frameTime, lag = 0;
 	int ticks = 0;

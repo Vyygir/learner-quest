@@ -52,6 +52,12 @@ namespace Scenes {
 			));
 
 			createMenuItems();
+
+			addElement("SettingsBackground", new UI::Box(
+				{ 24, 24, 24, 200 },
+				Scale{ 0.8f, 0.8f },
+				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Center }
+			));
 		}
 
 		void onUpdate(float delta) override {
@@ -59,7 +65,12 @@ namespace Scenes {
 			getElement<UI::Image>("Logo")->render();
 			getElement<UI::Text>("InDevelopment")->render();
 
+//			getChildElement<UI::Text>("ChildElement")->render();
+//			getElement<UI::Text>("ChildElement", "ParentElement")->render();
+
 			renderMenuItems();
+
+			getElement<UI::Box>("SettingsBackground")->render();
 		}
 
 		void onTick() override {
@@ -104,6 +115,11 @@ namespace Scenes {
 				},
 				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
 					element->setColor({ 255, 255, 255, 255 });
+				},
+				[this](const SDL_MouseButtonEvent &event, UI::InteractiveText *element) {
+					if (event.type == SDL_MOUSEBUTTONDOWN && event.button == SDL_BUTTON_LEFT) {
+						this->sceneManager->changeScene("TestScene");
+					}
 				}
 			},
 			MenuItem{
