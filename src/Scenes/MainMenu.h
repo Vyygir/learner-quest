@@ -53,24 +53,23 @@ namespace Scenes {
 
 			createMenuItems();
 
-			addElement("SettingsBackground", new UI::Box(
-				{ 24, 24, 24, 200 },
-				Scale{ 0.8f, 0.8f },
-				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Center }
-			));
+//			addElement("SettingsBackground", new UI::Box(
+//				{ 24, 24, 24, 200 },
+//				Scale{ 0.8f, 0.8f },
+//				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Center }
+//			));
 		}
 
 		void onUpdate(float delta) override {
+			Scene::onUpdate(delta);
+
 			getElement<UI::RepeatableImage>("CloudBackground")->render();
 			getElement<UI::Image>("Logo")->render();
 			getElement<UI::Text>("InDevelopment")->render();
 
-//			getChildElement<UI::Text>("ChildElement")->render();
-//			getElement<UI::Text>("ChildElement", "ParentElement")->render();
-
 			renderMenuItems();
 
-			getElement<UI::Box>("SettingsBackground")->render();
+//			getElement<UI::Box>("SettingsBackground")->render();
 		}
 
 		void onTick() override {

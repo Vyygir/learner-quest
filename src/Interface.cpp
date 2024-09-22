@@ -90,6 +90,10 @@ void Interface::handleElementEvents(const SDL_Event &event) {
 	}
 
 	for (auto& element : this->interactiveElements) {
+		if (!element->getVisibility() || element->isUnderneath()) {
+			continue;
+		}
+
 		element->handleEvent(event);
 	}
 }

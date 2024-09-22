@@ -13,17 +13,20 @@ namespace UI {
 		UI::Element* parent = nullptr;
 
 	protected:
-		bool rendered = false;
 		SDL_Texture* texture;
 		SDL_Rect rect;
-		bool isVisible;
+
 		Alignment alignment;
 		Scale scale = { 1.0f, 1.0f };
 		Dimensions dimensions = { 0, 0 };
 		Offset offset;
 		Offset normalOffset;
-		bool scaleToWindow;
+
 		Dimensions previousWindowSize = { DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT };
+
+		bool scaleToWindow;
+		bool isVisible;
+		bool isUnderneathElement = false;
 
 		void updateRectSize(int windowWidth, int windowHeight, Dimensions dimensions) {
 			if ( this->dimensions.w > 0 && this->dimensions.h > 0) {
@@ -132,19 +135,6 @@ namespace UI {
 			}
 		}
 
-		[[nodiscard]]
-		bool isWithinBounds(int x, int y) const {
-			if (x < this->rect.x || x > (this->rect.x + this->rect.w)) {
-				return false;
-			}
-
-			if (y < this->rect.y || y > (this->rect.y + this->rect.h)) {
-				return false;
-			}
-
-			return true;
-		}
-
 	public:
 		Element(
 			SDL_Texture *texture,
@@ -198,8 +188,6 @@ namespace UI {
 			this->preRender(renderer);
 
 			SDL_RenderCopy(renderer, this->texture, nullptr, &this->rect);
-
-			this->rendered = true;
 		}
 
 		SDL_Rect getRect() {
@@ -230,17 +218,38 @@ namespace UI {
 			this->parent = element;
 		}
 
-		bool hasRendered() const {
-			return this->rendered;
+		[[nodiscard]]
+		UI::Element* getParent() const {
+			return this->parent;
+		}
+
+		[[nodiscard]]
+		bool isWithinBounds(int x, int y) const {
+			if (x < this->rect.x || x > (this->rect.x + this->rect.w)) {
+				return false;
+			}
+
+			if (y < this->rect.y || y > (this->rect.y + this->rect.h)) {
+				return false;
+			}
+
+			return true;
 		}
 
 		void setName(const std::string &elementName) {
 			this->name = elementName;
 		}
 
-		[[nodiscard]]
-		UI::Element* getParent() const {
-			return this->parent;
+		void setUnderneathElement(bool underneath) {
+			this->isUnderneathElement = underneath;
+		}
+
+		bool isUnderneath() const {
+			return this->isUnderneathElement;
+		}
+
+		std::string getName() const {
+			return this->name;
 		}
 
 		virtual void handleEvent(const SDL_Event &event) {};

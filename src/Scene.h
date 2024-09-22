@@ -21,7 +21,30 @@ public:
 	}
 
 	virtual void onLoad() {};
-	virtual void onUpdate(float delta) {};
+	virtual void onUpdate(float delta) {
+		for (auto it = elements.rbegin(); it != elements.rend(); ++it) {
+			auto* element = it->second;
+
+			element->setUnderneathElement(false);
+
+			for (auto jt = elements.rbegin(); jt != elements.rend(); ++jt) {
+				if (it != jt) {
+					SDL_Rect elementRect = element->getRect();
+					SDL_Rect overlapRect = jt->second->getRect();
+
+					if (
+						elementRect.x > overlapRect.x &&
+						(elementRect.x + elementRect.w) < (overlapRect.x + overlapRect.w) &&
+						elementRect.y > overlapRect.y &&
+						(elementRect.y + elementRect.h) < (overlapRect.y + overlapRect.h)
+					) {
+						element->setUnderneathElement(true);
+					}
+				}
+			}
+		}
+	};
+
 	virtual void onTick() {};
 	virtual void onMouseMove(SDL_MouseMotionEvent event) {};
 	virtual void onMouseButton(SDL_MouseButtonEvent event) {};
