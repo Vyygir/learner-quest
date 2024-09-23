@@ -28,6 +28,8 @@ public:
 	virtual void onTick() {};
 	virtual void onMouseMove(SDL_MouseMotionEvent event) {};
 	virtual void onMouseButton(SDL_MouseButtonEvent event) {};
+	virtual void onInputStart(SDL_Keycode key) {};
+	virtual void onInputEnd(SDL_Keycode key) {};
 	virtual void onResize(int newWidth, int newHeight) {};
 	virtual void onExit() {};
 

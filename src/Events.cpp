@@ -41,6 +41,14 @@ void Events::handle() {
 				currentScene->onMouseButton(event.button);
 			}
 
+			if (type == SDL_KEYDOWN) {
+				currentScene->onInputStart(event.key.keysym.sym);
+			}
+
+			if (type == SDL_KEYUP) {
+				currentScene->onInputEnd(event.key.keysym.sym);
+			}
+
 			if (type == SDL_WINDOWEVENT || type == SDL_WINDOWEVENT_SIZE_CHANGED) {
 				currentScene->onResize(event.window.data1, event.window.data2);
 			}
