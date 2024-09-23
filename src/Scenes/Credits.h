@@ -12,7 +12,9 @@ using namespace UI;
 namespace Scenes {
 	class Credits : public Scene {
 	private:
-		int scrollerOffset = DEFAULT_WINDOW_HEIGHT;
+		int scrollerOffset = 0;
+		int scrollerSpeed = 1;
+
 		int lineOffset = 0;
 		int spacerHeight = 30;
 
@@ -28,7 +30,7 @@ namespace Scenes {
 			this->ui->setBackgroundColor({ 0, 0, 0 });
 
 			addElement("ScrollingText", new UI::Box(
-				{ 255, 255, 255, 16 },
+				{ 0, 0, 0, 255 },
 				Scale{ 0.75f, 1.0f },
 				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Top }
 			));
@@ -89,10 +91,7 @@ namespace Scenes {
 		}
 
 		void onUpdate(float delta) override {
-			auto* scroller = getElement<UI::Box>("ScrollingText");
-
-			scroller->setOffset({ 0, this->scrollerOffset });
-			scroller->render();
+			getElement<UI::Box>("ScrollingText")->render();
 
 			if (!this->lineNames.empty()) {
 				for (auto& lineName : this->lineNames) {
@@ -102,7 +101,24 @@ namespace Scenes {
 		}
 
 		void onTick() override {
-			this->scrollerOffset -= 1;
+			this->scrollerOffset -= this->scrollerSpeed;
+			getElement<UI::Box>("ScrollingText")->setOffset({ 0, this->scrollerOffset });
+
+			if (this->scrollerOffset < -this->lineOffset) {
+				this->sceneManager->changeScene("MainMenu");
+			}
+		}
+
+		void onInputStart(SDL_Keycode key) override {
+			if (key == SDLK_SPACE || key == SDLK_DOWN) {
+				this->scrollerSpeed = 18;
+			}
+		}
+
+		void onInputEnd(SDL_Keycode key) override {
+			if (key == SDLK_SPACE || key == SDLK_DOWN) {
+				this->scrollerSpeed = 4;
+			}
 		}
 	};
 }

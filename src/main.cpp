@@ -22,7 +22,7 @@
 
 // Scenes
 #include "Scenes/MainMenu.h"
-#include "Scenes/TestScene.h"
+#include "Scenes/Credits.h"
 
 void clean(SDL_Window *window) {
 	SDL_DestroyWindow(window);
@@ -89,7 +89,7 @@ int main() {
 	ui.addFont("Mini Pixel", "assets/fonts/MiniPixel-7.ttf");
 
 	sceneManager.addScene("MainMenu", std::make_unique<Scenes::MainMenu>());
-	sceneManager.addScene("TestScene", std::make_unique<Scenes::TestScene>());
+	sceneManager.addScene("Credits", std::make_unique<Scenes::Credits>());
 
 	// Set the default scene.
 	sceneManager.changeScene("MainMenu");
