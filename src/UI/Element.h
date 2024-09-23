@@ -100,10 +100,6 @@ namespace UI {
 					break;
 			}
 
-			// Apply the offset
-			this->rect.x += offset.x;
-			this->rect.y += offset.y;
-
 			// Potentially apply parent offsets
 			if (this->parent) {
 				SDL_Rect parentRect = this->parent->getRect();
@@ -133,6 +129,10 @@ namespace UI {
 						break;
 				}
 			}
+
+			// Apply the offset
+			this->rect.x += offset.x;
+			this->rect.y += offset.y;
 		}
 
 	public:
