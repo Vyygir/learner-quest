@@ -17,11 +17,35 @@ void SceneManager::updateCurrentScene(float delta) {
 	if (this->currentScene) {
 		this->currentScene->onUpdate(delta);
 	}
+
+	if (!this->additivesScenes.empty()) {
+		for (auto it = this->additivesScenes.begin(); it != this->additivesScenes.end(); it++) {
+			AdditiveScene additive = it->second;
+
+			if (!additive.visible) {
+				continue;
+			}
+
+			additive.scene->onUpdate(delta);
+		}
+	}
 }
 
 void SceneManager::tickScene() {
 	if (this->currentScene) {
 		this->currentScene->onTick();
+	}
+
+	if (!this->additivesScenes.empty()) {
+		for (auto it = this->additivesScenes.begin(); it != this->additivesScenes.end(); it++) {
+			AdditiveScene additive = it->second;
+
+			if (!additive.visible) {
+				continue;
+			}
+
+			additive.scene->onTick();
+		}
 	}
 }
 
@@ -55,6 +79,24 @@ std::shared_ptr<Scene> SceneManager::getAdditiveScene(const std::string &name) {
 	return this->additivesScenes[name].scene;
 }
 
+std::map<std::string, AdditiveScene> SceneManager::getAdditiveScenes(bool getVisibleOnly) {
+	auto additives = this->additivesScenes;
+
+	if (getVisibleOnly) {
+		auto it = additives.begin();
+
+		while (it != additives.end()) {
+			if (it->second.visible == false) {
+				additives.erase(it++);
+			} else {
+				++it;
+			}
+		}
+	}
+
+	return additives;
+}
+
 void SceneManager::showAdditiveScene(const std::string &name) {
 	if (this->additivesScenes.find(name) == this->additivesScenes.end()) {
 		Logger::log("Unable to show additive scene; no entry called \"" + name + "\" exists");
@@ -64,9 +106,10 @@ void SceneManager::showAdditiveScene(const std::string &name) {
 	AdditiveScene additive = this->additivesScenes[name];
 
 	if (additive.visible == false) {
-		additive.visible = true;
-		additive.scene->onLoad();
+		this->additivesScenes[name].visible = true;
 	}
+
+	additive.scene->onLoad();
 }
 
 void SceneManager::hideAdditiveScene(const std::string &name) {
@@ -78,9 +121,10 @@ void SceneManager::hideAdditiveScene(const std::string &name) {
 	AdditiveScene additive = this->additivesScenes[name];
 
 	if (additive.visible == true) {
-		additive.visible = false;
-		additive.scene->onExit();
+		this->additivesScenes[name].visible = false;
 	}
+
+	additive.scene->onExit();
 }
 
 void SceneManager::removeAdditiveScene(const std::string &name) {
@@ -91,4 +135,8 @@ void SceneManager::removeAdditiveScene(const std::string &name) {
 
 	this->additivesScenes[name].scene->onExit();
 	this->additivesScenes.erase(name);
+}
+
+void SceneManager::clearAdditiveScenes() {
+	this->additivesScenes.clear();
 }

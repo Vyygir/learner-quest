@@ -17,7 +17,7 @@ namespace Scenes {
 			addElement("ParentBackground", new UI::Box(
 				{ 64, 0, 0, 255 },
 				Scale{ 0.5f, 0.5f },
-				Alignment{ HorizontalAlignment::Right, VerticalAlignment::Bottom }
+				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Center }
 			));
 
 			// props

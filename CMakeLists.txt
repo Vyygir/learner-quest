@@ -38,6 +38,7 @@ add_executable(learner_quest
     src/Options.h
     src/Scenes/MainMenu.h
     src/Scenes/TestScene.h
+    src/Scenes/Additive/Settings.h
 )
 
 # Link the libraries to the executable

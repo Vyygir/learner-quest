@@ -6,6 +6,8 @@
 #include "../Utilities/Logger.h"
 #include "../UI/Elements.h"
 
+#include "Additive/Settings.h"
+
 using namespace UI;
 
 namespace Scenes {
@@ -53,11 +55,7 @@ namespace Scenes {
 
 			createMenuItems();
 
-//			addElement("SettingsBackground", new UI::Box(
-//				{ 24, 24, 24, 200 },
-//				Scale{ 0.8f, 0.8f },
-//				Alignment{ HorizontalAlignment::Center, VerticalAlignment::Center }
-//			));
+			sceneManager->addAdditiveScene("Settings", std::make_unique<Additive::Settings>());
 		}
 
 		void onUpdate(float delta) override {
@@ -68,8 +66,6 @@ namespace Scenes {
 			getElement<UI::Text>("InDevelopment")->render();
 
 			renderMenuItems();
-
-//			getElement<UI::Box>("SettingsBackground")->render();
 		}
 
 		void onTick() override {
@@ -104,6 +100,11 @@ namespace Scenes {
 				},
 				[](const SDL_MouseMotionEvent &event, UI::InteractiveText *element) {
 					element->setColor({ 255, 255, 255, 255 });
+				},
+				[this](const SDL_MouseButtonEvent &event, UI::InteractiveText *element) {
+					if (event.type == SDL_MOUSEBUTTONDOWN && event.button == SDL_BUTTON_LEFT) {
+						sceneManager->showAdditiveScene("Settings");
+					}
 				}
 			},
 			MenuItem{

@@ -22,27 +22,7 @@ public:
 
 	virtual void onLoad() {};
 	virtual void onUpdate(float delta) {
-		for (auto it = elements.rbegin(); it != elements.rend(); ++it) {
-			auto* element = it->second;
-
-			element->setUnderneathElement(false);
-
-			for (auto jt = elements.rbegin(); jt != elements.rend(); ++jt) {
-				if (it != jt) {
-					SDL_Rect elementRect = element->getRect();
-					SDL_Rect overlapRect = jt->second->getRect();
-
-					if (
-						elementRect.x > overlapRect.x &&
-						(elementRect.x + elementRect.w) < (overlapRect.x + overlapRect.w) &&
-						elementRect.y > overlapRect.y &&
-						(elementRect.y + elementRect.h) < (overlapRect.y + overlapRect.h)
-					) {
-						element->setUnderneathElement(true);
-					}
-				}
-			}
-		}
+		this->orderElementsByDepth();
 	};
 
 	virtual void onTick() {};
@@ -60,6 +40,10 @@ protected:
 	Interface *ui;
 
 	bool loaded = false;
+
+	std::map<std::string, UI::Element*> getElements() {
+		return this->elements;
+	}
 
 	void addElement(const std::string &name, UI::Element* element) {
 		if (this->elements.find(name) != this->elements.end()) {
@@ -98,6 +82,54 @@ protected:
 		}
 
 		return dynamic_cast<T*>(this->elements[name]);
+	}
+
+	void orderElementsByDepth() {
+		auto sceneElements = this->elements;
+		auto additiveScenes = sceneManager->getAdditiveScenes(true);
+
+		if (!additiveScenes.empty()) {
+			for (auto at = additiveScenes.begin(); at != additiveScenes.end(); ++at) {
+				auto additiveScene = at->second.scene;
+				auto additiveElements = additiveScene->getElements();
+
+				if (additiveElements.empty()) {
+					continue;
+				}
+
+				sceneElements.merge(additiveElements);
+			}
+		}
+
+		for (auto it = sceneElements.rbegin(); it != sceneElements.rend(); ++it) {
+			auto* element = it->second;
+
+			element->setUnderneathElement(false);
+
+			for (auto jt = sceneElements.rbegin(); jt != sceneElements.rend(); ++jt) {
+				if (it == jt) {
+					continue;
+				}
+
+				auto* sibling = jt->second;
+
+				if (!sibling->getVisibility()) {
+					continue;
+				}
+
+				SDL_Rect elementRect = element->getRect();
+				SDL_Rect overlapRect = sibling->getRect();
+
+				if (
+					elementRect.x > overlapRect.x &&
+					(elementRect.x + elementRect.w) < (overlapRect.x + overlapRect.w) &&
+					elementRect.y > overlapRect.y &&
+					(elementRect.y + elementRect.h) < (overlapRect.y + overlapRect.h)
+					) {
+					element->setUnderneathElement(true);
+				}
+			}
+		}
 	}
 
 private:

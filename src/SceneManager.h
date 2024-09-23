@@ -27,9 +27,11 @@ public:
 
 	void addAdditiveScene(const std::string &name, const std::shared_ptr<Scene>& scene);
 	std::shared_ptr<Scene> getAdditiveScene(const std::string &name);
+	std::map<std::string, AdditiveScene> getAdditiveScenes(bool getVisibleOnly = false);
 	void showAdditiveScene(const std::string &name);
 	void hideAdditiveScene(const std::string &name);
 	void removeAdditiveScene(const std::string &name);
+	void clearAdditiveScenes();
 
 	[[nodiscard]]
 	std::shared_ptr<Scene> getCurrentScene() const {
