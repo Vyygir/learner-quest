@@ -1,0 +1,78 @@
+++LearnerQuest
+
+
++Created by Vyygir
+-This program definitely isn't a virus.
+
+
++Random Department
+Melda Bevel
+Demetra Manwaring
+Eusebia Stufflebeam
+Israel Rabin
+Bart Merrill
+Sonya Farner
+Kristan Cable
+Cythia Ignacio
+
++Another Department
+Gia Laura
+Dewayne Oda
+Lang Yeldell
+Kathlyn Brewer
+Nia Woodworth
+Leanna Vadnais
+Latasha Tang
+Liliana Newlon
+Dorthy Leon
+
++Some team
+Gigi Sin
+Jeneva Gratz
+Benedict Ramer
+Dee Rahn
+Bridget Cavallaro
+Dominga Follette
+Robyn Bernat
+Freeda Borg
+Margarett Rocamora
+Mazie Joly
+Matha Vore
+Yoko Brobst
+Ernesto Mccullum
+Maire Capel
+
++Testers
+Ashely Housand
+Eleonor Sesco
+Gerardo Biggers
+Shanon Rosati
+Genevive Oldham
+Morgan Bevacqua
+Steve Howle
+Jenny Brenner
+Meagan Ponder
+Georgeann Vachon
+Arica Oloughlin
+Lekisha Chilcote
+Wilfred Demaris
+Jarrett Silas
+Keiko Varner
+Brittni Schwebach
+Rafael Patten
+Carson Cottone
+Onie Koga
+
++Developed using
+JetBrains Clion
+C++17
+CMake
+SDL2 (_TTF, _Image)
+
+
+
+
+-This program definitely isn't a virus.
+
+
+

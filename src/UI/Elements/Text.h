@@ -27,23 +27,31 @@ namespace UI {
 		std::string content;
 		SDL_Color color;
 
-		SDL_Texture* createTexture() {
+		void createTexture() {
 			if (!this->font) {
 				Logger::warn("Font was not present:\n\t" + std::string(TTF_GetError()));
-				return nullptr;
+				return;
 			}
 
 			SDL_Surface *surface = TTF_RenderText_Blended(this->font, this->content.c_str(), this->color);
 
 			if (!surface) {
 				Logger::warn("Failed to render text: \n\tContent: \"" + this->content + "\"\n\tError:   " + SDL_GetError());
-				return nullptr;
+				return;
 			}
 
-			SDL_Texture *texture = SDL_CreateTextureFromSurface(Interface::getInstance().getRenderer(), surface);
-			SDL_FreeSurface(surface);
+			this->texture = SDL_CreateTextureFromSurface(Interface::getInstance().getRenderer(), surface);
 
-			return texture;
+			if (this->texture) {
+				int w, h;
+
+				SDL_QueryTexture(this->texture, nullptr, nullptr, &w, &h);
+
+				this->rect.w = w;
+				this->rect.h = h;
+			}
+
+			SDL_FreeSurface(surface);
 		}
 
 	public:
@@ -64,6 +72,7 @@ namespace UI {
 			scaleFont(scaleFont)
 		{
 			this->createFont();
+			this->createTexture();
 		}
 
 		void render() override {
@@ -84,16 +93,7 @@ namespace UI {
 				}
 			}
 
-			this->texture = createTexture();
-
-			if (this->texture) {
-				int w, h;
-
-				SDL_QueryTexture(texture, nullptr, nullptr, &w, &h);
-
-				this->rect.w = w;
-				this->rect.h = h;
-			}
+			this->createTexture();
 
 			Element::render();
 		}

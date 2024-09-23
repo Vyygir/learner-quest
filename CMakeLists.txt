@@ -37,7 +37,7 @@ add_executable(learner_quest
     src/UI/Forward/Element.h
     src/Options.h
     src/Scenes/MainMenu.h
-    src/Scenes/TestScene.h
+    src/Scenes/Credits.h
     src/Scenes/Additive/Settings.h
 )
 

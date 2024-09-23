@@ -118,7 +118,7 @@ namespace Scenes {
 				},
 				[this](const SDL_MouseButtonEvent &event, UI::InteractiveText *element) {
 					if (event.type == SDL_MOUSEBUTTONDOWN && event.button == SDL_BUTTON_LEFT) {
-						this->sceneManager->changeScene("TestScene");
+						this->sceneManager->changeScene("Credits");
 					}
 				}
 			},
